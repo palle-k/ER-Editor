@@ -21,7 +21,7 @@ Editor for Creation and Editing of Entity-Relationship-Models
 ##Documentation
 A detailed documentation can be found inside the app by clicking on Help>Show Help
 
-##Lizenz
+##License
 Copyright (c) 2015 Palle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
