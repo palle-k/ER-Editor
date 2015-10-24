@@ -1,0 +1,162 @@
+<!--
+EReditor
+help.html
+Copyright (c) 2014 - 2015 Palle
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<html>
+	<head>
+		<style>
+			body
+			{
+				width: 400px;
+				margin-left: 20px;
+				margin-bottom: 20px;
+			}
+			p
+			{
+				text-align: justify;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>
+			ER-Editor - Hilfe
+		</h2>
+		<h3>
+			Inhalt
+		</h3>
+		<ol>
+			<li>Der Editor</li>
+			<li>Erstellen von Entit&auml;ten</li>
+			<li>Erstellen von Relationships</li>
+			<li>Bearbeiten von Entit&auml;ten</li>
+			<li>Bearbeiten von Relationships</li>
+			<li>Schwache Entit&auml;ten und Relationships</li>
+			<li>Vererbung</li>
+			<li>Export</li>
+			<li>&Uuml;ber</li>
+		</ol>
+		<br>
+		<h2>
+			Der Editor
+		</h2>
+		<p>
+			Der Editor ist unterteilt in die Gesamtansicht auf der linken Seite und die Detailansicht auf der rechten, die sichtbar wird,
+			sobald ein Objekt in der Gesamtansicht ausgew&auml;hlt wurde.
+			Auf der linken Seite sind alle Objekte des Entity-Relationship-Diagramms zu sehen.
+			In der Detailansicht lassen sich Eigenschaften zu einzelnen Objekten des Diagramms bearbeiten.
+		</p>
+		<br>
+		<h2>
+			Erstellen von Entit&auml;ten
+		</h2>
+		<p>
+			Eine Entit&auml;t l&auml;sst sich im Men&uuml;>Modell>Neue Entit&auml;t oder durch Doppelklicken auf einen leeren Bereich im ER-Modell erstellen.
+			Diese wird automatisch im Modell eingef&uuml;gt und kann dann bearbeitet werden.
+			Das Hinzuf&uuml;gen von Entit&auml;ten ist auch mit der Tastenkombination CTRL + SHIFT + E m&ouml;glich.
+		</p>
+		<br>
+		<h2>
+			Erstellen von Relationships
+		</h2>
+		<p>
+			Eine Relationship l&auml;sst sich im Men&uuml;>Modell>Neue Relationship erstellen.
+			Daraufhin m&uuml;ssen zwei Entit&auml;ten f&uuml;r die neue Relationship durch anklicken gew&auml;t werden.
+			Es ist auch m&ouml;glich, eine Entit&auml;t doppelzuklicken, um die Erstellung einer Relationship zu beginnen und die erste Entit&auml;t zu w&auml;hlen.
+			Sind zwei Entit&auml;ten beim Beginn der Erstellung ausgew&aumlhlt, wird die Relationship automatisch zwischen den ausgew&auml;hlten Entit&auml;ten erstellt.
+			Nach erfolgreicher Wahl wird die Relationship im Modell eingef&uuml;gt und kann anschlie&szlig;end bearbeitet werden.
+			Falls keine neue Relationship erstellt werden soll, l&auml;sst sich der Vorgang mit der ESC-Taste abbrechen.
+			Das Hinzuf&uuml;gen von Relationships ist auch mit der Tastenkombination CTRL + SHIFT + R m&ouml;glich.
+		</p>
+		<br>
+		<h2>
+			Bearbeiten von Entit&auml;ten
+		</h2>
+		<p>
+			Die Detailansicht f&uuml;r eine Entit&auml;t kann durch anklicken einer Entit&auml;t ge&ouml;ffnet werden.
+			In der Detailansicht lassen sich ein neuer Name festlegen und Attribute hinzuf&uuml;gen.
+			Der Name f&uuml;r die Entit&auml;t und die Namen f&uuml;r Relationships m&uuml;ssen mit der ENTER-Taste best&auml;tigt werden.
+			Um ein neues Attribut zu erstellen, ist der entsprechende Button anzuklicken. Das neue Attribut erscheint in der Attributeliste und kann bearbeitet werden.
+			Ein Attribut kann als Schl&uuml;sselattribut festgelegt werden. Dadurch wird es zur Identifikation einer Entit&auml;t verwendet. 
+			Dies ist notwendig, wenn das ER-Modell in ein relationales Modell umgeformt wird, um Relationships zu einer Entit&auml;t zu erm&ouml;glichen (siehe Export).
+		</p>
+		<br>
+		<h2>
+			Bearbeiten von Relationships
+		</h2>
+		<p>
+			Relationships lassen sich in der Detailansicht bearbeiten. Dazu ist eine Relationship im Modell auszuw&auml;hlen.
+			F&uuml;r eine Relationship lassen sich der Name, die durch die Relationship verbundenen Entit&auml;ten und die Kardinalit&auml;t &auml;ndern.
+			Eine 1:1 Kardinalit&auml;t wird erreicht, wenn die Kardinalit&auml;t f&uuml;r beide Entit&auml;ten auf 1 gestellt ist.
+			Eine 1:n Kardinalit&auml;t wird erreicht, indem die Kardinalit&auml;t f&uuml;r eine der beiden Entit&auml;ten auf N gestellt ist.
+			Eine n:m Kardinalit&auml;t wrid erreicht, wenn f&uuml;r beide Entit&auml;ten die Kardinalit&auml;t n gew&auml;hlt ist.
+		</p>
+		<br>
+		<h2>
+			Schwache Entit&auml;ten und Relationships
+		</h2>
+		<p>
+			Der Editor unterst&auml;tzt zus&auml;tzlich schwache Entit&auml;ten und Relationships. Mit diesen kann die Abh&auml;ngigkeit einer Entit&auml;t von
+			der Existenz einer Entit&auml;t eines anderen Entit&auml;tstypen dargestellt werden. Schwache Entit&auml;ten und Relationships werden durch eine
+			doppelte Umrandung in der Gesamtansicht gekennzeichnet. Um eine Entit&auml;t oder eine Relationship als schwach darzustellen, ist im Detaileditor
+			des entsprechenden Objekts die Checkbox daf&uuml;r zu aktivieren. Schwache Entit&auml;ten und Relationships wirken sich nicht auf den Export als
+			relationales Modell aus. (Siehe Export)
+		</p>
+		<br>
+		<h2>
+			Vererbung
+		</h2>
+		<p>
+			Es lassen sich Vererbungen innerhalb des Modells darstellen. Bei einer Vererbung erbt ein Entit&auml;tstyp s&auml;tliche Attribute und Relationships eines
+			zweiten Entit&auml;tstypen. Um die Vererbung zu aktivieren, ist in der Detailansicht einer Entit&auml;t die Checkbox daf&uuml;r zu aktivieren.
+			Anschlie&szlig;end kann die Entit&auml;t, von der geerbt werden soll, gew&auml;hlt werden. Vererbung wirkt sich nicht auf den Export als relationales Modell aus.
+			(Siehe Export)
+		</p>
+		<br>
+		<h2>
+			Export
+		</h2>
+		<p>
+			Neben einer Sicherung, die es erm&ouml;glicht, das Modell mit dem Editor erneut zu &ouml;ffnen, unterst&uuml;tzt der Editor den Export, sowohl als png-Bild,
+			als auch als relationales Modell.
+			Beim Export als png-Bild wird das Modell, so wie es in der Gesamtansicht sichtbar ist, vor transparentem Hintergrund und ohne das Raster im Hintergrund gerendert.
+			Beim Export als relationales Modell konvertiert der Editor alle Entit&auml;ten und Relationships in Tabellen, sodass diese in einer Datenbank realisiert werden k&ouml;nnen.
+			Dabei gelten folgende Regeln:<br>
+			Bei 1:1 Kardinalit&auml;ten werden beide Entit&auml;ten in einer Tabelle zusammengefasst.<br>
+			Bei 1:n Kardinalit&auml;ten wird &uuml;ber die Schl&uuml;sselattribute der Entit&auml;t, f&uuml;r die die Kardinalit&auml;t 1 gilt, eine Referenz in der anderen Tabelle angelegt.<br>
+			Bei n:m Kardinalit&auml;ten werden die Schl&uuml;sselattribute beider Entit&auml;ten in einer separaten Tabelle zusammengefasst.<br>
+			Die Ausgabe erfolgt als Zeichenkette im Format <code>Tabelle(attribut1, ..., attributn)</code>.
+			Prim&auml;rschl&uuml;ssel werden mit dem Pr&auml;fix <code>pk_</code> gekennzeichnet.
+			Fremdschl&uuml;ssel werden mit dem Pr&auml;fix <code>fk_EntityName_</code> gekennzeichnet.
+		</p>
+		<br>
+		<br>
+		<h2>
+			&Uuml;ber
+		</h2>
+		<p>
+			ER-Editor
+			Version 3.3.0 beta
+		<br>
+			Entwicklung und Tests: Palle 
+		</p>
+	</body>
+</html>
