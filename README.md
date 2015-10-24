@@ -1,4 +1,5 @@
 #ER-Editor
+**Coming Soon: English Localization**
 
 Editor zur Erstellung und Bearbeitung von Enity-Relationship-Modellen zum Entwurf von Datenbanken
 
