@@ -2,6 +2,8 @@
 
 Editor for Creation and Editing of Entity-Relationship-Models
 
+![ER-Editor-Example](http://i.imgur.com/ZpsHsmh.png "ER-Editor-Example")
+
 ##Features
 * Creation of ER-Models
   * Easy adding of Entitäten and Relationships
