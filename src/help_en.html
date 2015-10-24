@@ -1,0 +1,140 @@
+<!--
+EReditor
+help.html
+Copyright (c) 2014 - 2015 Palle
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<html>
+	<head>
+		<style>
+			body
+			{
+				width: 400px;
+				margin-left: 20px;
+				margin-bottom: 20px;
+			}
+			p
+			{
+				text-align: justify;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>
+			ER-Editor - Help
+		</h2>
+		<h3>
+			Contents
+		</h3>
+		<ol>
+			<li>The Editor</li>
+			<li>Creation of Entities</li>
+			<li>Creation of Relationships</li>
+			<li>Editing Entities</li>
+			<li>Editing Relationships</li>
+			<li>Weak Entities and Relationships</li>
+			<li>Inheritance</li>
+			<li>Export</li>
+			<li>About</li>
+		</ol>
+		<br>
+		<h2>
+			The Editor
+		</h2>
+		<p>
+			The Editor consists of the main view on the left and the detail view on the right, which is only visible, if an object is selected in the main view.
+			The main view shows all objects of the Entity-Relationship model.
+			The detail view allows you to modify properties of one single object.
+		</p>
+		<br>
+		<h2>
+			Creation of Entities
+		</h2>
+		<p>
+			You can add an entity to the model by selecting the Model>New Entity menu, by double-clicking an empty area in the main editor or by pressing CTRL + SHIFT + E.
+			The Entity will be added to the model and can be edited afterwards.
+		</p>
+		<br>
+		<h2>
+			Creation of Relationships
+		</h2>
+		<p>
+			You can add a Relationship to the model by selecting the Model>New Relationship menu, by double-clicking an Entity in the main editor or by pressing CTRL + SHIFT + R.
+			For a Relationship, two Entities must be chosen, which will be connected by the new Relationship. This can be interrupted by pressing the ESC-key.
+			After the Relationship was added to the model, it can be edited in the detail view.
+		</p>
+		<br>
+		<h2>
+			Editing Entities
+		</h2>
+		<p>
+			The detail view for editing an Entity can be opened by clicking on an Entity in the main view. The detail view allows you to specify a new name and to add attributes.
+			Names for Entities, Relationships and Attributes have to be confirmed by pressing Backspace.
+			To add a new Attribute, select New Attribute. The new Attribute appears in the Attribute list and can be renamed or set as a key attribute.
+			Key attributes will be used to identify Entities or a Table row in a relational model.
+		</p>
+		<br>
+		<h2>
+			Editing Relationships
+		</h2>
+		<p>
+			To edit a Relationship, select it in the main view. The detail editor will show up, which will allow you to set the role of the Relationship
+			and change the cardinality of it.
+		</p>
+		<br>
+		<h2>
+			Weak Entities and Relationships
+		</h2>
+		<p>
+			It is possible to make Entities and Relationships appear as weak. This makes them dependent on other Entities.
+			Weak Entities and Relationships will be indicated by a double border. To make an Entity or Relationship appear as weak, select it in the main view and check the corresponding checkbox in the detail view.
+			 Making an Entity or Relationship weak has no effect on the export as a relational model (see Export).
+		</p>
+		<br>
+		<h2>
+			Inheritance
+		</h2>
+		<p>
+			An Entity type can inherit from another Entity type. This will add all attributes of the parent Entity to the child Entity.
+			To activate inheritance, select an Entity and enable Inheritance in the detail view. An Entity, from which the inheritance should take place can then be specified.
+		</p>
+		<br>
+		<h2>
+			Export
+		</h2>
+		<p>
+			An ER-Model can be exported as an png-image or a relational model.
+			To export an image, select the File>Export>As Image-Menu. The ER-Model will be rendered onto a png-image like it is shown in the editor. The image will be saved to disk.
+			To export a relational model, select File>Export>As Relational Model. The ER-Model will be converted to a relational model, which shows all tables, which have to be created in a Database.
+			Primary keys of a table are indicated with the prefix <code>pk_</code>. Foreign keys will be indicated with the prefix <code>fk_Entity1_RelationshipRole_Entity2_</code>.
+		</p>
+		<br>
+		<br>
+		<h2>
+			About
+		</h2>
+		<p>
+			ER-Editor
+			Version 3.4.0
+		<br>
+			Development and Testing: Palle 
+		</p>
+	</body>
+</html>

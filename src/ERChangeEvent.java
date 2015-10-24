@@ -1,5 +1,4 @@
 
-
 /**
   * EReditor
   * ERChangeEvent.java
@@ -27,15 +26,15 @@
 
 public abstract class ERChangeEvent
 {
-	public static final String	CHANGE_POSITION				= "Positions\u00e4nderung von Entit\u00e4t";
-	public static final String	CHANGE_POSITION_MULTIPLE	= "Positions\u00e4nderung";
-	public static final String	CHANGE_WEAK					= "Festlegung als schwach";
-	public static final String	CHANGE_NAME					= "Namens\u00e4nderung";
+	public static final String	CHANGE_POSITION				= "change_entity_position";
+	public static final String	CHANGE_POSITION_MULTIPLE	= "change_position_multiple";
+	public static final String	CHANGE_WEAK					= "change_weak";
+	public static final String	CHANGE_NAME					= "change_name";
 	
-	public static final String	CHANGE_DELETE			= "L\u00f6schen von Entit\u00e4t";
-	public static final String	CHANGE_DELETE_MULTIPLE	= "L\u00f6schen";
-	public static final String	CHANGE_ADD				= "Hinzuf\u00fcgen";
-	public static final String	CHANGE_PASTE			= "Einf\u00fcgen";
+	public static final String	CHANGE_DELETE			= "change_delete";
+	public static final String	CHANGE_DELETE_MULTIPLE	= "change_delete_multiple";
+	public static final String	CHANGE_ADD				= "change_add";
+	public static final String	CHANGE_PASTE			= "change_paste";
 	protected Object			source;
 	protected Object			beforeValue;
 	protected Object			afterValue;
@@ -84,7 +83,7 @@ public abstract class ERChangeEvent
 	@Override
 	public String toString()
 	{
-		return propertyName;
+		return ER_Editor.LOCALIZATION.getString(propertyName);
 	}
 	
 	public abstract void undo();

@@ -1,4 +1,28 @@
 
+/**
+  * EReditor
+  * EntityEditorPanel.java
+  * Created by Palle on 30.05.2014
+  * Copyright (c) 2014 - 2015 Palle. 
+  * 
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+  * in the Software without restriction, including without limitation the rights
+  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  * copies of the Software, and to permit persons to whom the Software is
+  * furnished to do so, subject to the following conditions:
+  * 
+  * The above copyright notice and this permission notice shall be included in
+  * all copies or substantial portions of the Software.
+  * 
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
+  */
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +72,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		lblEntityName = new JLabel();
 		lblEntityName.setBounds(5, 5, 100, 27);
-		lblEntityName.setText("Name:");
+		lblEntityName.setText(ER_Editor.LOCALIZATION.getString("entity_name"));
 		add(lblEntityName);
 		
 		txtEntityName = new JTextField();
@@ -59,7 +83,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		lblAttributes = new JLabel();
 		lblAttributes.setBounds(5, 37, 100, 27);
-		lblAttributes.setText("Attribute:");
+		lblAttributes.setText(ER_Editor.LOCALIZATION.getString("attributes"));
 		add(lblAttributes);
 		
 		dlmAttributeList = new DefaultListModel<String>();
@@ -73,7 +97,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		lblAttributeName = new JLabel();
 		lblAttributeName.setBounds(5, 274, 100, 27);
-		lblAttributeName.setText("Attributname:");
+		lblAttributeName.setText(ER_Editor.LOCALIZATION.getString("attribute_name"));
 		add(lblAttributeName);
 		
 		txtAttributeName = new JTextField();
@@ -84,34 +108,34 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		cbxAttributeIsKey = new JCheckBox();
 		cbxAttributeIsKey.setBounds(5, 311, 280, 27);
-		cbxAttributeIsKey.setText("Schl\u00fcsselattribut");
+		cbxAttributeIsKey.setText(ER_Editor.LOCALIZATION.getString("key_attribute"));
 		cbxAttributeIsKey.addActionListener(this);
 		cbxAttributeIsKey.setEnabled(false);
 		add(cbxAttributeIsKey);
 		
 		btnAddAttribute = new JButton();
 		btnAddAttribute.setBounds(5, 348, 140, 27);
-		btnAddAttribute.setText("Neues Attribut");
+		btnAddAttribute.setText(ER_Editor.LOCALIZATION.getString("new_attribute"));
 		btnAddAttribute.setEnabled(false);
 		btnAddAttribute.addActionListener(this);
 		add(btnAddAttribute);
 		
 		btnDeleteAttribute = new JButton();
 		btnDeleteAttribute.setBounds(150, 348, 140, 27);
-		btnDeleteAttribute.setText("Attribut l\u00f6schen");
+		btnDeleteAttribute.setText(ER_Editor.LOCALIZATION.getString("delete_attribute"));
 		btnDeleteAttribute.setEnabled(false);
 		btnDeleteAttribute.addActionListener(this);
 		add(btnDeleteAttribute);
 		
 		cbxIsWeakEntity = new JCheckBox();
 		cbxIsWeakEntity.setBounds(5, 385, 290, 27);
-		cbxIsWeakEntity.setText("Schwache Entit\u00e4t");
+		cbxIsWeakEntity.setText(ER_Editor.LOCALIZATION.getString("weak_entity"));
 		cbxIsWeakEntity.addActionListener(this);
 		add(cbxIsWeakEntity);
 		
 		cbxInherits = new JCheckBox();
 		cbxInherits.setBounds(5, 422, 120, 27);
-		cbxInherits.setText("Erbt von:");
+		cbxInherits.setText(ER_Editor.LOCALIZATION.getString("inherits_from"));
 		cbxInherits.addActionListener(this);
 		add(cbxInherits);
 		
@@ -123,7 +147,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		cbxAggregatesTo = new JCheckBox();
 		cbxAggregatesTo.setBounds(5, 459, 120, 27);
-		cbxAggregatesTo.setText("Teil von:");
+		cbxAggregatesTo.setText(ER_Editor.LOCALIZATION.getString("part_of"));
 		cbxAggregatesTo.addActionListener(this);
 		add(cbxAggregatesTo);
 		

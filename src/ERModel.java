@@ -1,5 +1,4 @@
 
-
 /**
   * EReditor
   * ERModel.java
@@ -78,19 +77,19 @@ public class ERModel
 			}
 			catch (FileNotFoundException e)
 			{
-				JOptionPane.showMessageDialog(null, "Datei konnte nicht geoeffnet werden\n" + e.getLocalizedMessage(),
-						"Fehler: Datei nicht lesbar", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("open_error_message") + "\n" + e.getLocalizedMessage(),
+						ER_Editor.LOCALIZATION.getString("open_error_title"), JOptionPane.ERROR_MESSAGE);
 						
 			}
 			catch (ClassNotFoundException e)
 			{
-				JOptionPane.showMessageDialog(null, "Datei konnte nicht geoeffnet werden\n" + e.getLocalizedMessage(),
-						"Fehler: Datei nicht lesbar", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("open_error_message") + "\n" + e.getLocalizedMessage(),
+						ER_Editor.LOCALIZATION.getString("open_error_title"), JOptionPane.ERROR_MESSAGE);
 			}
 			catch (IOException e)
 			{
-				JOptionPane.showMessageDialog(null, "Datei konnte nicht geoeffnet werden\n" + e.getLocalizedMessage(),
-						"Fehler: Datei nicht lesbar", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("open_error_message") + "\n" + e.getLocalizedMessage(),
+						ER_Editor.LOCALIZATION.getString("open_error_title"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return null;
@@ -130,8 +129,8 @@ public class ERModel
 			}
 			catch (IOException e)
 			{
-				JOptionPane.showMessageDialog(null, "Bild konnte nicht exportiert werden", "Fehler: Export fehlgeschlagen",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("image_export_error_message"),
+						ER_Editor.LOCALIZATION.getString("image_export_error_title"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -148,7 +147,7 @@ public class ERModel
 		if (saved)
 			return fileName.getName();
 		else
-			return "Unbenanntes ER-Modell";
+			return ER_Editor.LOCALIZATION.getString("model_name");
 	}
 	
 	public boolean isEmpty()
@@ -266,14 +265,14 @@ public class ERModel
 		}
 		catch (FileNotFoundException e)
 		{
-			JOptionPane.showMessageDialog(null, "Datei konnte nicht gesichert werden", "Fehler: Datei konnte nicht gesichert werden.",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("save_error_message") + "\n" + e.getLocalizedMessage(),
+					ER_Editor.LOCALIZATION.getString("save_error_title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(null, "Datei konnte nicht gesichert werden", "Fehler: Datei konnte nicht gesichert werden.",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("save_error_message") + "\n" + e.getLocalizedMessage(),
+					ER_Editor.LOCALIZATION.getString("save_error_title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		
@@ -281,7 +280,7 @@ public class ERModel
 	
 	private boolean saveAs(boolean keepNewFileName, JFrame parent)
 	{
-		FileDialog dialog = new FileDialog(parent, "ER-Modell sichern unter...", FileDialog.SAVE);
+		FileDialog dialog = new FileDialog(parent, ER_Editor.LOCALIZATION.getString("save_as"), FileDialog.SAVE);
 		dialog.setVisible(true);
 		String filename = dialog.getFile();
 		String dir = dialog.getDirectory();

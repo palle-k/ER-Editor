@@ -1,26 +1,25 @@
 #ER-Editor
-**Coming Soon: English Localization**
 
-Editor zur Erstellung und Bearbeitung von Enity-Relationship-Modellen zum Entwurf von Datenbanken
+Editor for Creation and Editing of Entity-Relationship-Models
 
 ##Features
-* Erstellung von ER-Modellen
-  * Einfaches Hinzufügen von Entitäten und Relationships
-  * Entitäten
-    * Hinzufügen von Attributen
-    * Schlüsselattribute
-    * Vererbung
+* Creation of ER-Models
+  * Easy adding of Entitäten and Relationships
+  * Entities
+    * Adding Attributes
+    * Key Attributes
+    * Inheritance
     * Aggregation
   * Relationships
-    * Verschiedene Kardinalitäten (1:1, 1:n, n:m)
-* Export als Bild
-* Export als Relationales Modell
-  * ER-Modell kann automatisch in relationales Modell umgewandelt werden
-  * Alle Entitäten und Relationships werden optimal umgewandelt
-* Hochentwickelter Renderalgorithmus
+    * Different Cardinalities (1:1, 1:n, n:m)
+* Export as PNG-Image
+* Export as relational model
+  * automatic conversion from ER-Model to relational Model
+  * efficient conversion of Entities and Relationships
+* Sofisticated Rendering Algorithm
 
-##Dokumentation
-Eine genaue Dokumentation mit Beschreibungen aller Funktionen ist im Programm enthalten
+##Documentation
+A detailed documentation can be found inside the app by clicking on Help>Show Help
 
 ##Lizenz
 Copyright (c) 2015 Palle

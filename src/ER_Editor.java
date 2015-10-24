@@ -39,6 +39,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.Action;
 import javax.swing.JDialog;
@@ -59,6 +61,8 @@ import javax.swing.border.EmptyBorder;
 
 public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 {
+	public static ResourceBundle LOCALIZATION;
+	
 	public static void main(String[] args)
 	{
 		try
@@ -72,6 +76,9 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		{
 		
 		}
+		
+		Locale locale = Locale.getDefault();
+		LOCALIZATION = ResourceBundle.getBundle("Localizable", locale);
 		
 		SwingUtilities.invokeLater(new Runnable()
 		{
@@ -171,17 +178,17 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		JMenuBar menuBar = new JMenuBar();
 		
 		JMenu menuFile = new JMenu();
-		menuFile.setText("Datei");
+		menuFile.setText(LOCALIZATION.getString("file_menu"));
 		{
 			menuNew = new JMenuItem();
-			menuNew.setText("Neues ER-Diagramm");
+			menuNew.setText(LOCALIZATION.getString("new_diagram"));
 			menuNew.setMnemonic('N');
 			menuNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuNew.addActionListener(this);
 			menuFile.add(menuNew);
 			
 			menuOpen = new JMenuItem();
-			menuOpen.setText("\u00d6ffnen");
+			menuOpen.setText(LOCALIZATION.getString("open_diagram"));
 			menuOpen.setMnemonic('O');
 			menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuOpen.addActionListener(this);
@@ -190,14 +197,14 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuFile.addSeparator();
 			
 			menuSave = new JMenuItem();
-			menuSave.setText("Sichern");
+			menuSave.setText(LOCALIZATION.getString("save_diagram"));
 			menuSave.setMnemonic('S');
 			menuSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuSave.addActionListener(this);
 			menuFile.add(menuSave);
 			
 			menuSaveAs = new JMenuItem();
-			menuSaveAs.setText("Sichern unter");
+			menuSaveAs.setText(LOCALIZATION.getString("save_diagram_as"));
 			menuSaveAs.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
 			menuSaveAs.addActionListener(this);
@@ -206,15 +213,15 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuFile.addSeparator();
 			
 			menuExport = new JMenu();
-			menuExport.setText("Exportieren");
+			menuExport.setText(LOCALIZATION.getString("export_diagram"));
 			{
 				menuExportImage = new JMenuItem();
-				menuExportImage.setText("Als Bild");
+				menuExportImage.setText(LOCALIZATION.getString("export_image"));
 				menuExportImage.addActionListener(this);
 				menuExport.add(menuExportImage);
 				
 				menuExportModel = new JMenuItem();
-				menuExportModel.setText("Als relationales Modell");
+				menuExportModel.setText(LOCALIZATION.getString("export_model"));
 				menuExportModel.addActionListener(this);
 				menuExport.add(menuExportModel);
 			}
@@ -223,10 +230,10 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		menuBar.add(menuFile);
 		
 		JMenu menuEdit = new JMenu();
-		menuEdit.setText("Bearbeiten");
+		menuEdit.setText(LOCALIZATION.getString("edit_menu"));
 		{
 			menuUndo = new JMenuItem();
-			menuUndo.setText("Widerrufen");
+			menuUndo.setText(LOCALIZATION.getString("undo"));
 			menuUndo.setMnemonic('Z');
 			menuUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuUndo.addActionListener(this);
@@ -234,7 +241,7 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuEdit.add(menuUndo);
 			
 			menuRedo = new JMenuItem();
-			menuRedo.setText("Wiederholen");
+			menuRedo.setText(LOCALIZATION.getString("redo"));
 			menuRedo.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
 			menuRedo.addActionListener(this);
@@ -244,7 +251,7 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuEdit.addSeparator();
 			
 			menuCut = new JMenuItem();
-			menuCut.setText("Ausschneiden");
+			menuCut.setText(LOCALIZATION.getString("cut"));
 			menuCut.setMnemonic('X');
 			menuCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuCut.setActionCommand((String) TransferHandler.getCutAction().getValue(Action.NAME));
@@ -252,7 +259,7 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuEdit.add(menuCut);
 			
 			menuCopy = new JMenuItem();
-			menuCopy.setText("Kopieren");
+			menuCopy.setText(LOCALIZATION.getString("copy"));
 			menuCopy.setMnemonic('C');
 			menuCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuCopy.setActionCommand((String) TransferHandler.getCopyAction().getValue(Action.NAME));
@@ -260,7 +267,7 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuEdit.add(menuCopy);
 			
 			menuPaste = new JMenuItem();
-			menuPaste.setText("Einsetzen");
+			menuPaste.setText(LOCALIZATION.getString("paste"));
 			menuPaste.setMnemonic('V');
 			menuPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuPaste.setActionCommand((String) TransferHandler.getPasteAction().getValue(Action.NAME));
@@ -270,14 +277,14 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuEdit.addSeparator();
 			
 			menuSelectAll = new JMenuItem();
-			menuSelectAll.setText("Alles Ausw\u00e4hlen");
+			menuSelectAll.setText(LOCALIZATION.getString("select_all"));
 			menuSelectAll.setMnemonic('A');
 			menuSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuSelectAll.addActionListener(this);
 			menuEdit.add(menuSelectAll);
 			
 			menuDelete = new JMenuItem();
-			menuDelete.setText("L\u00f6schen");
+			menuDelete.setText(LOCALIZATION.getString("delete"));
 			menuDelete.setMnemonic('A');
 			menuDelete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
 			menuDelete.addActionListener(this);
@@ -287,10 +294,10 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		menuBar.add(menuEdit);
 		
 		JMenu menuModel = new JMenu();
-		menuModel.setText("Modell");
+		menuModel.setText(LOCALIZATION.getString("model_menu"));
 		{
 			menuAddEntity = new JMenuItem();
-			menuAddEntity.setText("Entit\u00e4t hinzuf\u00fcgen");
+			menuAddEntity.setText(LOCALIZATION.getString("add_entity"));
 			menuAddEntity.setMnemonic('E');
 			menuAddEntity.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
@@ -301,45 +308,45 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 			menuAddRelationship.setMnemonic('R');
 			menuAddRelationship.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
-			menuAddRelationship.setText("Relationship hinzuf\u00fcgen");
+			menuAddRelationship.setText(LOCALIZATION.getString("add_relationship"));
 			menuAddRelationship.addActionListener(this);
 			menuModel.add(menuAddRelationship);
 		}
 		menuBar.add(menuModel);
 		
 		JMenu menuView = new JMenu();
-		menuView.setText("Darstellung");
+		menuView.setText(LOCALIZATION.getString("view_menu"));
 		{
 			menuZoomOriginal = new JMenuItem();
-			menuZoomOriginal.setText("Originalgr\u00f6sse");
+			menuZoomOriginal.setText(LOCALIZATION.getString("zoom_original"));
 			menuZoomOriginal.setMnemonic('0');
 			menuZoomOriginal.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuZoomOriginal.addActionListener(this);
 			menuView.add(menuZoomOriginal);
 			
 			menuZoomOut = new JMenuItem();
-			menuZoomOut.setText("Verkleinern");
+			menuZoomOut.setText(LOCALIZATION.getString("zoom_out"));
 			menuZoomOut.setMnemonic('-');
 			menuZoomOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuZoomOut.addActionListener(this);
 			menuView.add(menuZoomOut);
 			
 			menuZoomIn = new JMenuItem();
-			menuZoomIn.setText("Vergroessern");
+			menuZoomIn.setText(LOCALIZATION.getString("zoom_in"));
 			menuZoomIn.setMnemonic('+');
 			menuZoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 			menuZoomIn.addActionListener(this);
 			menuView.add(menuZoomIn);
 			
 			menuImplode = new JMenuItem();
-			menuImplode.setText("Stauchen");
+			menuImplode.setText(LOCALIZATION.getString("compress"));
 			menuImplode.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
 			menuImplode.addActionListener(this);
 			menuView.add(menuImplode);
 			
 			menuExpand = new JMenuItem();
-			menuExpand.setText("Strecken");
+			menuExpand.setText(LOCALIZATION.getString("expand"));
 			menuExpand.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
 			menuExpand.addActionListener(this);
@@ -348,10 +355,10 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		menuBar.add(menuView);
 		
 		JMenu menuHelp = new JMenu();
-		menuHelp.setText("Hilfe");
+		menuHelp.setText(LOCALIZATION.getString("help_menu"));
 		{
 			menuItemHelp = new JMenuItem();
-			menuItemHelp.setText("Hilfe anzeigen");
+			menuItemHelp.setText(LOCALIZATION.getString("show_help"));
 			menuItemHelp.setMnemonic('H');
 			menuItemHelp.setAccelerator(
 					KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
@@ -389,8 +396,8 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 				if (e.getSource() == menuNew)
 				{
 					if (!erView.model.isEmpty())
-						if (JOptionPane.showConfirmDialog(frame, "Soll das aktuelle Modell gesichert werden?", "Sichern",
-								JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
+						if (JOptionPane.showConfirmDialog(frame, LOCALIZATION.getString("save_confirmation"),
+								LOCALIZATION.getString("save_confirm_option"), JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
 							erView.model.save(frame);
 					changeHistory.reset();
 					erView.model = new ERModel();
@@ -398,8 +405,8 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 				else if (e.getSource() == menuOpen)
 				{
 					if (!erView.model.isEmpty())
-						if (JOptionPane.showConfirmDialog(frame, "Soll das aktuelle Modell gesichert werden?", "Sichern",
-								JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
+						if (JOptionPane.showConfirmDialog(frame, LOCALIZATION.getString("save_confirmation"),
+								LOCALIZATION.getString("save_confirm_option"), JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
 							erView.model.save(frame);
 					changeHistory.reset();
 					ERModel model = ERModel.open(frame);
@@ -500,13 +507,13 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		menuUndo.setEnabled(history.canUndo());
 		menuRedo.setEnabled(history.canRedo());
 		if (history.canUndo())
-			menuUndo.setText(history.peekUndo() + " widerrufen");
+			menuUndo.setText(String.format(LOCALIZATION.getString("undo_with_format"), history.peekUndo()));
 		else
-			menuUndo.setText("Widerrrufen");
+			menuUndo.setText(LOCALIZATION.getString("undo"));
 		if (history.canRedo())
-			menuRedo.setText(history.peekRedo() + " wiederholen");
+			menuRedo.setText(String.format(LOCALIZATION.getString("redo_with_format"), history.peekRedo()));
 		else
-			menuRedo.setText("Wiederholen");
+			menuRedo.setText(LOCALIZATION.getString("redo"));
 	}
 	
 	public void showAboutWindow()
@@ -520,7 +527,7 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		JLabel appName = new JLabel();
 		appName.setBounds(0, 0, 200, 180);
 		appName.setText("<html><head><style>body { text-align: center; width: 150px; }</style></head>"
-				+ "<body><h1>ER-Editor</h1><p>v3.3 beta<br><br>&copy; 2014 - 2015 Palle</p>");
+				+ "<body><h1>ER-Editor</h1><p>v3.4.0<br><br>&copy; 2014 - 2015 Palle</p>");
 		about.add(appName);
 		about.setVisible(true);
 	}

@@ -1,4 +1,28 @@
 
+/**
+  * EReditor
+  * RelationshipEditorPanel.java
+  * Created by Palle on 30.05.2014
+  * Copyright (c) 2014 - 2015 Palle 
+  * 
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+  * in the Software without restriction, including without limitation the rights
+  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  * copies of the Software, and to permit persons to whom the Software is
+  * furnished to do so, subject to the following conditions:
+  * 
+  * The above copyright notice and this permission notice shall be included in
+  * all copies or substantial portions of the Software.
+  * 
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
+  */
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +66,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		lblRelationshipName = new JLabel();
 		lblRelationshipName.setBounds(5, 74, 100, 27);
-		lblRelationshipName.setText("Rolle:");
+		lblRelationshipName.setText(ER_Editor.LOCALIZATION.getString("relationship_role"));
 		add(lblRelationshipName);
 		
 		txtRelationshipName = new JTextField();
@@ -52,7 +76,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		lblRelationshipEntity1 = new JLabel();
 		lblRelationshipEntity1.setBounds(5, 5, 100, 27);
-		lblRelationshipEntity1.setText("1. Entit\u00e4t:");
+		lblRelationshipEntity1.setText(ER_Editor.LOCALIZATION.getString("relationship_first_entity"));
 		add(lblRelationshipEntity1);
 		
 		cbxRelationshipEntity1 = new JComboBox<String>();
@@ -62,7 +86,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		lblCardinality1 = new JLabel();
 		lblCardinality1.setBounds(5, 37, 100, 27);
-		lblCardinality1.setText("Kardinalit\u00e4t:");
+		lblCardinality1.setText(ER_Editor.LOCALIZATION.getString("relationship_cardinality"));
 		add(lblCardinality1);
 		
 		rbnCardinality1toOne = new JRadioButton();
@@ -83,7 +107,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		lblRelationshipEntity2 = new JLabel();
 		lblRelationshipEntity2.setBounds(5, 111, 100, 27);
-		lblRelationshipEntity2.setText("2. Entit\u00e4t:");
+		lblRelationshipEntity2.setText(ER_Editor.LOCALIZATION.getString("relationship_second_entity"));
 		add(lblRelationshipEntity2);
 		
 		cbxRelationshipEntity2 = new JComboBox<String>();
@@ -93,7 +117,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		lblCardinality2 = new JLabel();
 		lblCardinality2.setBounds(5, 148, 100, 27);
-		lblCardinality2.setText("Kardinalit\u00e4t:");
+		lblCardinality2.setText(ER_Editor.LOCALIZATION.getString("relationship_cardinality"));
 		add(lblCardinality2);
 		
 		rbnCardinality2toOne = new JRadioButton();
@@ -114,7 +138,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		cbxIsWeakRelationship = new JCheckBox();
 		cbxIsWeakRelationship.setBounds(5, 185, 280, 27);
-		cbxIsWeakRelationship.setText("Schwache Relationship");
+		cbxIsWeakRelationship.setText(ER_Editor.LOCALIZATION.getString("relationship_weak"));
 		cbxIsWeakRelationship.addActionListener(this);
 		add(cbxIsWeakRelationship);
 	}
