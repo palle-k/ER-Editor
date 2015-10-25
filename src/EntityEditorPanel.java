@@ -26,6 +26,8 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -41,7 +43,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class EntityEditorPanel extends JPanel implements ListSelectionListener, ActionListener
+public class EntityEditorPanel extends JPanel implements ListSelectionListener, ActionListener, KeyListener
 {
 	private static final long serialVersionUID = 3734616267915157581L;
 	
@@ -66,6 +68,8 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 	private Attribute						selectedAttribute;
 	private ERChangeHistory					history;
 	
+	private int listSelectionIndex = -1;
+	
 	public EntityEditorPanel()
 	{
 		setLayout(null);
@@ -77,7 +81,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		txtEntityName = new JTextField();
 		txtEntityName.setBounds(110, 5, 180, 27);
-		txtEntityName.addActionListener(this);
+		txtEntityName.addKeyListener(this);
 		txtEntityName.setEnabled(false);
 		add(txtEntityName);
 		
@@ -102,7 +106,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		
 		txtAttributeName = new JTextField();
 		txtAttributeName.setBounds(110, 274, 180, 27);
-		txtAttributeName.addActionListener(this);
+		txtAttributeName.addKeyListener(this);
 		txtAttributeName.setEnabled(false);
 		add(txtAttributeName);
 		
@@ -161,31 +165,7 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == txtEntityName)
-		{
-			if (entity != null)
-			{
-				EntityChangeEvent changeEvent = new EntityChangeEvent(entity, EntityChangeEvent.CHANGE_NAME, entity.getName(),
-						txtEntityName.getText());
-				history.pushEvent(changeEvent);
-				entity.setName(txtEntityName.getText());
-				request.objectNeedsRepaint(entity);
-			}
-		}
-		else if (e.getSource() == txtAttributeName)
-		{
-			EntityChangeEvent changeEvent = new EntityChangeEvent(selectedAttribute, EntityChangeEvent.CHANGE_ATTRIBUTE_RENAME,
-					selectedAttribute.getName(), txtAttributeName.getText());
-			history.pushEvent(changeEvent);
-			selectedAttribute.setName(txtAttributeName.getText());
-			request.objectNeedsRepaint(entity);
-			int index = listAttributes.getSelectedIndex();
-			dlmAttributeList.clear();
-			for (Attribute a : entity.attributes)
-				dlmAttributeList.addElement(a.getName());
-			listAttributes.setSelectedIndex(index);
-		}
-		else if (e.getSource() == btnAddAttribute)
+		if (e.getSource() == btnAddAttribute)
 		{
 			cbxAttributeIsKey.setSelected(false);
 			dlmAttributeList.clear();
@@ -291,6 +271,43 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 		request.objectNeedsRepaint(entity);
 	}
 	
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		if (e.getSource() == txtEntityName)
+		{
+			if (entity != null)
+			{
+				EntityChangeEvent changeEvent = new EntityChangeEvent(entity, EntityChangeEvent.CHANGE_NAME, entity.getName(),
+						txtEntityName.getText());
+				history.pushEvent(changeEvent);
+				entity.setName(txtEntityName.getText());
+				request.objectNeedsRepaint(entity);
+			}
+		}
+		else if (e.getSource() == txtAttributeName)
+		{
+			EntityChangeEvent changeEvent = new EntityChangeEvent(selectedAttribute, EntityChangeEvent.CHANGE_ATTRIBUTE_RENAME,
+					selectedAttribute.getName(), txtAttributeName.getText());
+			history.pushEvent(changeEvent);
+			selectedAttribute.setName(txtAttributeName.getText());
+			request.objectNeedsRepaint(entity);
+			int index = listAttributes.getSelectedIndex();
+			dlmAttributeList.set(index, selectedAttribute.getName());
+		}
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+	
+	}
+	
 	public void setChangeHistory(ERChangeHistory history)
 	{
 		this.history = history;
@@ -366,6 +383,9 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 	public void valueChanged(ListSelectionEvent e)
 	{
 		int index = listAttributes.getSelectedIndex();
+		if (index == listSelectionIndex)
+			return;
+		listSelectionIndex = index;
 		if (index == -1)
 		{
 			selectedAttribute = null;

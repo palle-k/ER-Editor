@@ -26,6 +26,8 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -36,7 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class RelationshipEditorPanel extends JPanel implements ActionListener
+public class RelationshipEditorPanel extends JPanel implements ActionListener, KeyListener
 {
 	private static final long serialVersionUID = -3192472999724623164L;
 	
@@ -71,7 +73,7 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 		
 		txtRelationshipName = new JTextField();
 		txtRelationshipName.setBounds(110, 74, 180, 27);
-		txtRelationshipName.addActionListener(this);
+		txtRelationshipName.addKeyListener(this);
 		add(txtRelationshipName);
 		
 		lblRelationshipEntity1 = new JLabel();
@@ -193,6 +195,32 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener
 			relationship.setWeak(cbxIsWeakRelationship.isSelected());
 		}
 		request.objectNeedsRepaint(relationship);
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		
+		if (relationship == null)
+			return;
+		if (e.getSource() == txtRelationshipName)
+		{
+			RelationshipChangeEvent changeEvent = new RelationshipChangeEvent(relationship, RelationshipChangeEvent.CHANGE_NAME,
+					relationship.name, txtRelationshipName.getText());
+			history.pushEvent(changeEvent);
+			relationship.setName(txtRelationshipName.getText());
+			request.objectNeedsRepaint(relationship);
+		}
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
 	}
 	
 	public void setChangeHistory(ERChangeHistory history)

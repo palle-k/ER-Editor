@@ -69,7 +69,6 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		{
 			System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
-			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "ER-Editor");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e)
@@ -99,7 +98,7 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 	private JMenuItem	menuCut, menuCopy, menuPaste, menuDelete, menuUndo, menuRedo, menuSelectAll;
 	private JMenuItem	menuAddEntity, menuAddRelationship;
 	private JMenuItem	menuZoomOriginal, menuZoomIn, menuZoomOut, menuExpand, menuImplode;
-	private JMenuItem	menuItemHelp;
+	private JMenuItem	menuItemHelp, menuItemAbout;
 	private JMenu		menuExport;
 	
 	private final ERChangeHistory changeHistory;
@@ -364,6 +363,12 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 					KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
 			menuItemHelp.addActionListener(this);
 			menuHelp.add(menuItemHelp);
+			
+			menuItemAbout = new JMenuItem();
+			menuItemAbout.setText(LOCALIZATION.getString("about_menu"));
+			menuItemAbout.setMnemonic('A');
+			menuItemAbout.addActionListener(this);
+			menuHelp.add(menuItemAbout);
 		}
 		menuBar.add(menuHelp);
 		
@@ -371,18 +376,18 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 		frame.setTitle("ER-Editor: " + erView.model.getFilename());
 		frame.setVisible(true);
 		
-		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x"))
-		{
-			com.apple.eawt.Application app = com.apple.eawt.Application.getApplication();
-			app.setAboutHandler(new com.apple.eawt.AboutHandler()
-			{
-				@Override
-				public void handleAbout(com.apple.eawt.AppEvent.AboutEvent arg0)
-				{
-					showAboutWindow();
-				}
-			});
-		}
+		// if (System.getProperty("os.name").toLowerCase().startsWith("mac os x"))
+		// {
+		// com.apple.eawt.Application app = com.apple.eawt.Application.getApplication();
+		// app.setAboutHandler(new com.apple.eawt.AboutHandler()
+		// {
+		// @Override
+		// public void handleAbout(com.apple.eawt.AppEvent.AboutEvent arg0)
+		// {
+		// showAboutWindow();
+		// }
+		// });
+		// }
 	}
 	
 	@Override
@@ -495,6 +500,8 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 					erView.expand();
 				else if (e.getSource() == menuItemHelp)
 					new HelpWindow();
+				else if (e.getSource() == menuItemAbout)
+					showAboutWindow();
 				erView.repaint();
 				frame.setTitle("ER-Editor: " + erView.model.getFilename());
 			}
@@ -520,14 +527,14 @@ public class ER_Editor implements ActionListener, ERHistoryChangeNotifier
 	{
 		JDialog about = new JDialog(frame);
 		about.setBounds(about.getParent().getX() + about.getParent().getWidth() / 2 - 100,
-				about.getParent().getY() + about.getParent().getHeight() / 2 - 100, 200, 200);
+				about.getParent().getY() + about.getParent().getHeight() / 2 - 100, 200, 150);
 		about.setLayout(null);
 		about.setResizable(false);
 		
 		JLabel appName = new JLabel();
-		appName.setBounds(0, 0, 200, 180);
+		appName.setBounds(0, 0, 200, 120);
 		appName.setText("<html><head><style>body { text-align: center; width: 150px; }</style></head>"
-				+ "<body><h1>ER-Editor</h1><p>v3.4.0<br><br>&copy; 2014 - 2015 Palle</p>");
+				+ "<body><h1 style=\"font-weight:100;font-size:16px;\">ER-Editor</h1><p style=\"font-size:9px;\">v3.4.1<br><br>&copy; 2014 - 2015 Palle</p>");
 		about.add(appName);
 		about.setVisible(true);
 	}

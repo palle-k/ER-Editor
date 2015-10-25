@@ -63,7 +63,7 @@ public class ERChangeHistory
 	{
 		redoStack.clear();
 		changeStack.push(event);
-		if (changeStack.size() > 100)
+		if (changeStack.size() > 512)
 			changeStack.remove(0);
 		if (notifier != null)
 			notifier.historyDidChange(this);

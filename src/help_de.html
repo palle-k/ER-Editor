@@ -93,7 +93,6 @@ THE SOFTWARE.
 		<p>
 			Die Detailansicht f&uuml;r eine Entit&auml;t kann durch anklicken einer Entit&auml;t ge&ouml;ffnet werden.
 			In der Detailansicht lassen sich ein neuer Name festlegen und Attribute hinzuf&uuml;gen.
-			Der Name f&uuml;r die Entit&auml;t und die Namen f&uuml;r Relationships m&uuml;ssen mit der ENTER-Taste best&auml;tigt werden.
 			Um ein neues Attribut zu erstellen, ist der entsprechende Button anzuklicken. Das neue Attribut erscheint in der Attributeliste und kann bearbeitet werden.
 			Ein Attribut kann als Schl&uuml;sselattribut festgelegt werden. Dadurch wird es zur Identifikation einer Entit&auml;t verwendet. 
 			Dies ist notwendig, wenn das ER-Modell in ein relationales Modell umgeformt wird, um Relationships zu einer Entit&auml;t zu erm&ouml;glichen (siehe Export).
@@ -104,10 +103,12 @@ THE SOFTWARE.
 		</h2>
 		<p>
 			Relationships lassen sich in der Detailansicht bearbeiten. Dazu ist eine Relationship im Modell auszuw&auml;hlen.
-			F&uuml;r eine Relationship lassen sich der Name, die durch die Relationship verbundenen Entit&auml;ten und die Kardinalit&auml;t &auml;ndern.
-			Eine 1:1 Kardinalit&auml;t wird erreicht, wenn die Kardinalit&auml;t f&uuml;r beide Entit&auml;ten auf 1 gestellt ist.
-			Eine 1:n Kardinalit&auml;t wird erreicht, indem die Kardinalit&auml;t f&uuml;r eine der beiden Entit&auml;ten auf N gestellt ist.
-			Eine n:m Kardinalit&auml;t wrid erreicht, wenn f&uuml;r beide Entit&auml;ten die Kardinalit&auml;t n gew&auml;hlt ist.
+			F&uuml;r eine Relationship lassen sich die Rolle, die durch die Relationship verbundenen Entit&auml;ten und die Kardinalit&auml;t &auml;ndern.
+			<ul>
+				<li>Eine 1:1 Kardinalit&auml;t wird erreicht, wenn die Kardinalit&auml;t f&uuml;r beide Entit&auml;ten auf 1 gestellt ist.</li>
+				<li>Eine 1:n Kardinalit&auml;t wird erreicht, indem die Kardinalit&auml;t f&uuml;r eine der beiden Entit&auml;ten auf N gestellt ist.</li>
+				<li>Eine n:m Kardinalit&auml;t wrid erreicht, wenn f&uuml;r beide Entit&auml;ten die Kardinalit&auml;t n gew&auml;hlt ist.</li>
+			</ul>
 		</p>
 		<br>
 		<h2>
@@ -146,17 +147,7 @@ THE SOFTWARE.
 			Die Ausgabe erfolgt als Zeichenkette im Format <code>Tabelle(attribut1, ..., attributn)</code>.
 			Prim&auml;rschl&uuml;ssel werden mit dem Pr&auml;fix <code>pk_</code> gekennzeichnet.
 			Fremdschl&uuml;ssel werden mit dem Pr&auml;fix <code>fk_Entity1_RelationshipRole_Entity2_</code> gekennzeichnet.
-		</p>
-		<br>
-		<br>
-		<h2>
-			&Uuml;ber
-		</h2>
-		<p>
-			ER-Editor
-			Version 3.4.0
-		<br>
-			Entwicklung und Tests: Palle 
+		</p>twicklung und Tests: Palle 
 		</p>
 	</body>
 </html>

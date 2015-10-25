@@ -19,6 +19,12 @@ Editor for Creation and Editing of Entity-Relationship-Models
   * automatic conversion from ER-Model to relational Model
   * efficient conversion of Entities and Relationships
 * Sofisticated Rendering Algorithm
+* Platform independent. Works on any Computer that has Java installed.
+
+##Installation
+1. Make sure you have installed JRE 1.8 or newer.
+2. Download [ER-Editor.jar](https://github.com/palle-k/ER-Editor/releases/download/3.4.1/ER_Editor.jar)
+3. Double click the downloaded file to start ER-Editor
 
 ##Documentation
 A detailed documentation can be found inside the app by clicking on Help>Show Help

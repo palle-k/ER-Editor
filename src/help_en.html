@@ -97,6 +97,11 @@ THE SOFTWARE.
 		<p>
 			To edit a Relationship, select it in the main view. The detail editor will show up, which will allow you to set the role of the Relationship
 			and change the cardinality of it.
+			<ul>
+				<li>1:1 cardinality: Set the cardinality of both Entities to 1</li>
+				<li>1:n cardinality: Set the cardinality of one Entity to n, the other to 1</li>
+				<li>n:m cardinality: Set the cardinality of both Entities to n</li>
+			</ul>
 		</p>
 		<br>
 		<h2>
@@ -124,17 +129,6 @@ THE SOFTWARE.
 			To export an image, select the File>Export>As Image-Menu. The ER-Model will be rendered onto a png-image like it is shown in the editor. The image will be saved to disk.
 			To export a relational model, select File>Export>As Relational Model. The ER-Model will be converted to a relational model, which shows all tables, which have to be created in a Database.
 			Primary keys of a table are indicated with the prefix <code>pk_</code>. Foreign keys will be indicated with the prefix <code>fk_Entity1_RelationshipRole_Entity2_</code>.
-		</p>
-		<br>
-		<br>
-		<h2>
-			About
-		</h2>
-		<p>
-			ER-Editor
-			Version 3.4.0
-		<br>
-			Development and Testing: Palle 
 		</p>
 	</body>
 </html>
