@@ -1,4 +1,3 @@
-![ER-Editor-Icon](http://i.imgur.com/K7VwVdR.png =64x){: width="64px"}
 #ER-Editor
 
 Editor for Creation and Editing of Entity-Relationship-Models
