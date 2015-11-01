@@ -49,7 +49,6 @@ public class ERModel
 	@SuppressWarnings("unchecked")
 	public static ERModel open(File f) throws IOException, ClassNotFoundException
 	{
-		System.out.println(f.getAbsolutePath());
 		FileInputStream fis = new FileInputStream(f);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		ERModel model = new ERModel();

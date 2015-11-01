@@ -315,25 +315,29 @@ public class Entity extends ERObject
 				g.setColor(Color.BLACK);
 			g.drawLine((int) posX, (int) posY, bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
 			
-			FontRenderContext frc = g.getFontRenderContext();
-			Font f = new Font("Helvetica", Font.PLAIN, 12);
-			TextLayout tl = new TextLayout(attributes.get(i).getName(), f, frc);
-			Rectangle2D textBounds = tl.getBounds();
-			
-			int radius = Math.max((int) (textBounds.getWidth() / 2) + 8, 40);
-			
-			g.setColor(Color.WHITE);
-			g.fillOval((int) posX - radius, (int) posY - 40, 2 * radius, 80);
-			
-			if (selected)
-				g.setColor(new Color(0, 150, 180));
-			else
-				g.setColor(Color.BLACK);
-			g.drawOval((int) posX - radius, (int) posY - 40, 2 * radius, 80);
-			if (attributes.get(i).isKeyAttribute())
-				g.fillArc((int) posX - radius, (int) posY - 40, 2 * radius, 80, 180, 180);
+			if (attributes.get(i).getName().length() != 0)
+			{
+				FontRenderContext frc = g.getFontRenderContext();
+				Font f = new Font("Helvetica", Font.PLAIN, 12);
+				TextLayout tl = new TextLayout(attributes.get(i).getName(), f, frc);
+				Rectangle2D textBounds = tl.getBounds();
 				
-			tl.draw(g, (int) (posX - textBounds.getWidth() / 2), posY + (attributes.get(i).isKeyAttribute() ? -2 : 3));
+				int radius = Math.max((int) (textBounds.getWidth() / 2) + 8, 40);
+				
+				g.setColor(Color.WHITE);
+				g.fillOval((int) posX - radius, (int) posY - 40, 2 * radius, 80);
+				
+				if (selected)
+					g.setColor(new Color(0, 150, 180));
+				else
+					g.setColor(Color.BLACK);
+				g.drawOval((int) posX - radius, (int) posY - 40, 2 * radius, 80);
+				if (attributes.get(i).isKeyAttribute())
+					g.fillArc((int) posX - radius, (int) posY - 40, 2 * radius, 80, 180, 180);
+					
+				tl.draw(g, (int) (posX - textBounds.getWidth() / 2), posY + (attributes.get(i).isKeyAttribute() ? -2 : 3));
+			}
+			
 		}
 		
 		g.setColor(Color.WHITE);
@@ -350,11 +354,14 @@ public class Entity extends ERObject
 			Rectangle innerRect = new Rectangle(bounds.x + 5, bounds.y + 5, bounds.width - 10, bounds.height - 10);
 			g.draw(innerRect);
 		}
-		FontRenderContext frc = g.getFontRenderContext();
-		Font f = new Font("Helvetica", Font.PLAIN, 18);
-		TextLayout tl = new TextLayout(name, f, frc);
-		Rectangle2D textBounds = tl.getBounds();
-		tl.draw(g, (int) (bounds.x + bounds.width / 2 - textBounds.getWidth() / 2), bounds.y + bounds.height / 2 + 7);
+		if (name.length() != 0)
+		{
+			FontRenderContext frc = g.getFontRenderContext();
+			Font f = new Font("Helvetica", Font.PLAIN, 18);
+			TextLayout tl = new TextLayout(name, f, frc);
+			Rectangle2D textBounds = tl.getBounds();
+			tl.draw(g, (int) (bounds.x + bounds.width / 2 - textBounds.getWidth() / 2), bounds.y + bounds.height / 2 + 7);
+		}
 	}
 	
 	public void setAbstract(boolean aFlag)
