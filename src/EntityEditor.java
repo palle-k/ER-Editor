@@ -32,6 +32,7 @@ public class EntityEditor extends JPanel implements ERSelectionNotifier
 	
 	private final EntityEditorPanel			eeditor;
 	private final RelationshipEditorPanel	reditor;
+	private final DescriptionBoxEditorPanel deditor;
 	
 	public EntityEditor()
 	{
@@ -44,6 +45,10 @@ public class EntityEditor extends JPanel implements ERSelectionNotifier
 		reditor.setBounds(0, 0, 300, 500);
 		reditor.setVisible(false);
 		add(reditor);
+		deditor = new DescriptionBoxEditorPanel();
+		deditor.setBounds(0, 0, 300, 500);
+		deditor.setVisible(false);
+		add(deditor);
 	}
 	
 	@Override
@@ -56,6 +61,7 @@ public class EntityEditor extends JPanel implements ERSelectionNotifier
 			return;
 		}
 		reditor.setVisible(false);
+		deditor.setVisible(false);
 		eeditor.setEntity(e);
 		eeditor.setVisible(true);
 	}
@@ -70,14 +76,32 @@ public class EntityEditor extends JPanel implements ERSelectionNotifier
 			return;
 		}
 		eeditor.setVisible(false);
+		deditor.setVisible(false);
 		reditor.setRelationship(r);
 		reditor.setVisible(true);
+	}
+
+	@Override
+	public void didSelectDescriptionBox(final DescriptionBox b)
+	{
+		if (b == null)
+		{
+			reditor.setVisible(false);
+			eeditor.setVisible(false);
+			deditor.setVisible(false);
+			return;
+		}
+		eeditor.setVisible(false);
+		reditor.setVisible(false);
+		deditor.setDescriptionBox(b);
+		deditor.setVisible(true);
 	}
 	
 	public void setChangeHistory(ERChangeHistory history)
 	{
 		eeditor.setChangeHistory(history);
 		reditor.setChangeHistory(history);
+		deditor.setChangeHistory(history);
 	}
 	
 	public void setModelQuery(ERModelQuery query)
@@ -90,5 +114,6 @@ public class EntityEditor extends JPanel implements ERSelectionNotifier
 	{
 		eeditor.setRepaintRequest(request);
 		reditor.setRepaintRequest(request);
+		deditor.setRepaintRequest(request);
 	}
 }

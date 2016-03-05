@@ -103,7 +103,6 @@ public class EntityChangeEvent extends ERChangeEvent
 	@Override
 	public void undo()
 	{
-		// TODO undo for Aggregation
 		if (propertyName.equals(CHANGE_POSITION))
 		{
 			((ERObject) source).bounds.x = ((Point) beforeValue).x;

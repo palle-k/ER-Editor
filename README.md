@@ -14,12 +14,15 @@ Editor for Creation and Editing of Entity-Relationship-Models
     * Aggregation
   * Relationships
     * Different Cardinalities (1:1, 1:n, n:m)
+  * Description Boxes
+    * Add descriptions with titles and text
 * Export as PNG-Image
 * Export as relational model
   * automatic conversion from ER-Model to relational Model
   * efficient conversion of Entities and Relationships
-* Sofisticated Rendering Algorithm
+* Sophisticated Rendering Algorithm
 * Platform independent. Works on any Computer that has Java installed.
+* Optimized for Mac OS X: Native fullscreen and menu bar support.
 
 ##Installation
 1. Make sure you have installed JRE 1.8 or newer.

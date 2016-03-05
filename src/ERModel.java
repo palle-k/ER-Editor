@@ -24,6 +24,10 @@
   * THE SOFTWARE.
   */
 
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.Graphics2D;
@@ -38,11 +42,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.util.List;
 
 public class ERModel
 {
@@ -52,8 +52,9 @@ public class ERModel
 		FileInputStream fis = new FileInputStream(f);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		ERModel model = new ERModel();
-		model.entities = (ArrayList<Entity>) ois.readObject();
-		model.relationships = (ArrayList<Relationship>) ois.readObject();
+		model.entities = (List<Entity>) ois.readObject();
+		model.relationships = (List<Relationship>) ois.readObject();
+		model.descriptions = (List<DescriptionBox>) ois.readObject();
 		model.fileName = f;
 		model.saved = true;
 		ois.close();
@@ -74,18 +75,7 @@ public class ERModel
 			{
 				return open(new File(dir + filename));
 			}
-			catch (FileNotFoundException e)
-			{
-				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("open_error_message") + "\n" + e.getLocalizedMessage(),
-						ER_Editor.LOCALIZATION.getString("open_error_title"), JOptionPane.ERROR_MESSAGE);
-						
-			}
-			catch (ClassNotFoundException e)
-			{
-				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("open_error_message") + "\n" + e.getLocalizedMessage(),
-						ER_Editor.LOCALIZATION.getString("open_error_title"), JOptionPane.ERROR_MESSAGE);
-			}
-			catch (IOException e)
+			catch (ClassNotFoundException | IOException e)
 			{
 				JOptionPane.showMessageDialog(null, ER_Editor.LOCALIZATION.getString("open_error_message") + "\n" + e.getLocalizedMessage(),
 						ER_Editor.LOCALIZATION.getString("open_error_title"), JOptionPane.ERROR_MESSAGE);
@@ -94,9 +84,9 @@ public class ERModel
 		return null;
 	}
 	
-	protected ArrayList<Entity>			entities;
-	protected ArrayList<Relationship>	relationships;
-	protected ArrayList<DescriptionBox>	descriptions;
+	protected List<Entity>              entities;
+	protected List<Relationship>   relationships;
+	protected List<DescriptionBox> descriptions;
 	
 	protected File fileName;
 	
@@ -104,9 +94,9 @@ public class ERModel
 	
 	public ERModel()
 	{
-		entities = new ArrayList<Entity>();
-		relationships = new ArrayList<Relationship>();
-		descriptions = new ArrayList<DescriptionBox>();
+		entities = new ArrayList<>();
+		relationships = new ArrayList<>();
+		descriptions = new ArrayList<>();
 	}
 	
 	public void addEntity()
@@ -151,7 +141,7 @@ public class ERModel
 	
 	public boolean isEmpty()
 	{
-		return entities.size() == 0 && relationships.size() == 0 && saved == false;
+		return entities.isEmpty() && relationships.isEmpty() && descriptions.isEmpty() && !saved;
 	}
 	
 	public void layoutBoxes()
@@ -254,6 +244,7 @@ public class ERModel
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(entities);
 			oos.writeObject(relationships);
+			oos.writeObject(descriptions);
 			oos.close();
 			// XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new
 			// FileOutputStream(f)));

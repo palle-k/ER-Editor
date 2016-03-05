@@ -34,6 +34,7 @@ import java.awt.geom.Rectangle2D;
 
 public class Relationship extends ERObject
 {
+
 	private static final long serialVersionUID = 1L;
 	
 	private Entity	e1;

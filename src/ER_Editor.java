@@ -49,21 +49,9 @@ public class ER_Editor
 		{
 		
 		}
-		
 		Locale locale = Locale.getDefault();
 		LOCALIZATION = ResourceBundle.getBundle("Localizable", locale);
-		
 		openedFrames = new ArrayList<ERFrame>();
-		
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				new ERFrame();
-			}
-		});
-		
+		SwingUtilities.invokeLater(() -> new ERFrame());
 	}
-	
 }

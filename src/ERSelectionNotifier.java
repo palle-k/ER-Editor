@@ -27,7 +27,9 @@
 
 public interface ERSelectionNotifier
 {
-	public void didSelectEntity(Entity e);
+	void didSelectEntity(Entity e);
 	
-	public void didSelectRelationship(Relationship r);
+	void didSelectRelationship(Relationship r);
+
+	void didSelectDescriptionBox(DescriptionBox b);
 }

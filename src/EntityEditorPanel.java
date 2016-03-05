@@ -24,12 +24,6 @@
   * THE SOFTWARE.
   */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -42,6 +36,11 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
 
 public class EntityEditorPanel extends JPanel implements ListSelectionListener, ActionListener, KeyListener
 {
@@ -332,8 +331,8 @@ public class EntityEditorPanel extends JPanel implements ListSelectionListener, 
 			cbxInherits.setSelected(entity.hasParentEntity());
 			cbxInheritingEntity.setEnabled(entity.hasParentEntity());
 			
-			ArrayList<Entity> entities = query.getAllEntities();
-			int entityIndex = 0;
+			List<Entity> entities    = query.getAllEntities();
+			int          entityIndex = 0;
 			if (entity.hasParentEntity())
 				entityIndex = entities.indexOf(entity.getParent());
 			cbxInheritingEntity.removeAllItems();

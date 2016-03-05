@@ -24,12 +24,6 @@
   * THE SOFTWARE.
   */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -37,6 +31,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
 
 public class RelationshipEditorPanel extends JPanel implements ActionListener, KeyListener
 {
@@ -242,10 +241,10 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener, K
 			cbxIsWeakRelationship.setSelected(relationship.isWeak());
 			cbxRelationshipEntity1.removeActionListener(this);
 			cbxRelationshipEntity2.removeActionListener(this);
-			ArrayList<Entity> listEntities = query.getAllEntities();
-			String[] entityNames = new String[listEntities.size()];
-			int e1index = 0;
-			int e2index = 0;
+			List<Entity> listEntities = query.getAllEntities();
+			String[]     entityNames  = new String[listEntities.size()];
+			int          e1index      = 0;
+			int          e2index      = 0;
 			for (int i = 0; i < listEntities.size(); i++)
 			{
 				entityNames[i] = listEntities.get(i).getName();

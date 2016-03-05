@@ -487,7 +487,18 @@ public class ERModelConverter
 			}
 			else if (r.getSecondEntity() == entity && !entities.contains(r.getFirstEntity()))
 			{
-			
+				// 1:1 Relationship
+				if (!(r.getFirstEntityToMany() || r.getSecondEntityToMany()))
+				{
+					entities.add(r.getFirstEntity());
+					entities.addAll(getEntitiesWithIdentifyingKeysOfEntity(r.getFirstEntity(), entities));
+				}
+				// 1:N non-weak Relationship
+				else if (!r.getSecondEntityToMany() && r.getFirstEntityToMany() && !(entity.isWeak() && r.isWeak()))
+				{
+					entities.add(r.getFirstEntity());
+					entities.addAll(getEntitiesWithIdentifyingKeysOfEntity(r.getSecondEntity(), entities));
+				}
 			}
 		}
 		removeDuplicates(entities);

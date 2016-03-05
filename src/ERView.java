@@ -24,6 +24,7 @@
   * THE SOFTWARE.
   */
 
+import javax.swing.JComponent;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -48,9 +49,8 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
-
-import javax.swing.JComponent;
 
 public class ERView extends JComponent implements MouseMotionListener, MouseListener, KeyListener, RepaintRequest, ERModelQuery
 {
@@ -58,7 +58,7 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 	private static final long serialVersionUID = -7189232076193021142L;
 	
 	protected ERModel								model;
-	private final ArrayList<ERSelectionNotifier>	notifier;
+	private final List<ERSelectionNotifier>	        notifier;
 	
 	private boolean	dragging;
 	private Point	draggingStart;
@@ -66,9 +66,6 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 	private Point	draggingPrevious;
 	private boolean	dragsObject;
 	private float	zoom;
-	
-	private Entity			selectedEntity;
-	private Relationship	selectedRelationship;
 	
 	private boolean			requestRelationship;
 	private boolean			relationshipHasFirstEntity;
@@ -88,7 +85,7 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 		draggingPrevious = new Point();
 		model = new ERModel();
 		zoom = 1.0f;
-		notifier = new ArrayList<ERSelectionNotifier>();
+		notifier = new ArrayList<>();
 	}
 	
 	public void addEntity()
@@ -100,17 +97,30 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 		EntityChangeEvent changeEvent = new EntityChangeEvent(model.entities, EntityChangeEvent.CHANGE_ADD, null, e);
 		history.pushEvent(changeEvent);
 	}
-	
+
+	public void addDescriptionBox()
+	{
+		DescriptionBox b = new DescriptionBox();
+		b.bounds.x = (int) (visibleRect.getCenterX() / zoom);
+		b.bounds.y = (int) (visibleRect.getCenterY() / zoom);
+		model.descriptions.add(b);
+		DescriptionBoxChangeEvent changeEvent = new DescriptionBoxChangeEvent(model.descriptions, DescriptionBoxChangeEvent.CHANGE_ADD, null, b);
+		history.pushEvent(changeEvent);
+	}
+
 	public void copySelected() throws IOException
 	{
-		Stack<ERObject> objects = new Stack<ERObject>();
+		Stack<ERObject> objects = new Stack<>();
 		for (Entity e : model.entities)
 			if (e.selected)
 				objects.add(e);
 		for (Relationship r : model.relationships)
 			if (r.selected)
 				objects.add(r);
-		ERObject[] objs = objects.toArray(new ERObject[0]);
+		for (DescriptionBox b : model.descriptions)
+			if (b.selected)
+				objects.add(b);
+		ERObject[] objs = objects.toArray(new ERObject[objects.size()]);
 		ERSelection selection = new ERSelection(objs);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
 	}
@@ -123,8 +133,9 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 	
 	public void deleteSelected()
 	{
-		Stack<Entity> removedEntities = new Stack<Entity>();
-		Stack<Relationship> removedRelationships = new Stack<Relationship>();
+		Stack<Entity> removedEntities = new Stack<>();
+		Stack<Relationship> removedRelationships = new Stack<>();
+		Stack<DescriptionBox> removedDescriptions = new Stack<>();
 		for (int i = 0; i < model.relationships.size(); i++)
 		{
 			Relationship r = model.relationships.get(i);
@@ -145,8 +156,19 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 				i--;
 			}
 		}
-		Entity[] r_entities = removedEntities.toArray(new Entity[0]);
-		Relationship[] r_relationships = removedRelationships.toArray(new Relationship[0]);
+		for (int i = 0; i < model.descriptions.size(); i++)
+		{
+			DescriptionBox b = model.descriptions.get(i);
+			if (b.isSelected())
+			{
+				removedDescriptions.push(model.descriptions.get(i));
+				model.descriptions.remove(i);
+				i--;
+			}
+		}
+		Entity[] r_entities = removedEntities.toArray(new Entity[removedEntities.size()]);
+		Relationship[] r_relationships = removedRelationships.toArray(new Relationship[removedRelationships.size()]);
+		DescriptionBox[] r_descriptions = removedDescriptions.toArray(new DescriptionBox[removedDescriptions.size()]);
 		if (r_relationships.length > 0)
 		{
 			RelationshipChangeEvent r_changeEvent = new RelationshipChangeEvent(model.relationships,
@@ -159,6 +181,11 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 					null);
 			history.pushEvent(e_changeEvent);
 		}
+		if (r_descriptions.length > 0)
+		{
+			DescriptionBoxChangeEvent b_changeEvent = new DescriptionBoxChangeEvent(model.descriptions, DescriptionBoxChangeEvent.CHANGE_DELETE_MULTIPLE, r_descriptions, null);
+			history.pushEvent(b_changeEvent);
+		}
 		for (ERSelectionNotifier ersn : notifier)
 			ersn.didSelectRelationship(null);
 	}
@@ -169,11 +196,14 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			e.deselect();
 		for (Relationship r : model.relationships)
 			r.deselect();
+		for (DescriptionBox b : model.descriptions)
+			b.deselect();
 		for (ERSelectionNotifier ersn : notifier)
 			ersn.didSelectRelationship(null);
 		for (ERSelectionNotifier ersn : notifier)
 			ersn.didSelectEntity(null);
-			
+		for (ERSelectionNotifier ersn : notifier)
+			ersn.didSelectDescriptionBox(null);
 	}
 	
 	public void expand()
@@ -188,21 +218,26 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			r.bounds.x = (int) (1.25 * r.bounds.x);
 			r.bounds.y = (int) (1.25 * r.bounds.y);
 		}
+		for (DescriptionBox b : model.descriptions)
+		{
+			b.bounds.x = (int) (1.25 * b.bounds.x);
+			b.bounds.y = (int) (1.25 * b.bounds.y);
+		}
 	}
 	
 	@Override
-	public ArrayList<Entity> getAllEntities()
+	public List<Entity> getAllEntities()
 	{
 		return model.entities;
 	}
 	
 	@Override
-	public ArrayList<Relationship> getAllRelationships()
+	public List<Relationship> getAllRelationships()
 	{
 		return model.relationships;
 	}
 	
-	public void implode()
+	public void shrink()
 	{
 		for (Entity e : model.entities)
 		{
@@ -213,6 +248,11 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 		{
 			r.bounds.x = (int) (0.8 * r.bounds.x);
 			r.bounds.y = (int) (0.8 * r.bounds.y);
+		}
+		for (DescriptionBox b : model.descriptions)
+		{
+			b.bounds.x = (int) (0.8 * b.bounds.x);
+			b.bounds.y = (int) (0.8 * b.bounds.y);
 		}
 	}
 	
@@ -308,6 +348,16 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 					size.height = Math.max(size.height, re.bounds.y + re.bounds.height + 20);
 				}
 			}
+			for (DescriptionBox box : model.descriptions)
+			{
+				if (box.selected)
+				{
+					box.bounds.x = Math.max(draggingEnd.x - draggingPrevious.x + box.bounds.x, 0);
+					box.bounds.y = Math.max(draggingEnd.y - draggingPrevious.y + box.bounds.y, 0);
+					size.width = Math.max(size.width, box.bounds.x + box.bounds.width + 20);
+					size.height = Math.max(size.height, box.bounds.y + box.bounds.height + 20);
+				}
+			}
 			setSize(size);
 		}
 		else
@@ -323,6 +373,9 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			for (Relationship r : model.relationships)
 				if (r.bounds.intersects(draggingRect))
 					r.select();
+			for (DescriptionBox b : model.descriptions)
+				if (b.bounds.intersects(draggingRect))
+					b.select();
 		}
 		
 		repaint();
@@ -351,8 +404,9 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 	public void mousePressed(MouseEvent e)
 	{
 		this.requestFocus();
-		selectedEntity = null;
-		selectedRelationship = null;
+		Entity selectedEntity = null;
+		Relationship selectedRelationship = null;
+		DescriptionBox selectedDescription = null;
 		boolean hitsObject = false;
 		Point p = new Point((int) (e.getX() / zoom), (int) (e.getY() / zoom));
 		boolean deselect = true;
@@ -361,6 +415,9 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 				deselect = false;
 		for (Relationship re : model.relationships)
 			if (re.isSelected() && re.isAffectedByTouch(p))
+				deselect = false;
+		for (DescriptionBox box : model.descriptions)
+			if (box.isSelected() && box.isAffectedByTouch(p))
 				deselect = false;
 		for (Entity en : model.entities)
 		{
@@ -411,10 +468,26 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 				selectedRelationship = r;
 			}
 		}
-		if (selectedEntity == null & selectedRelationship != null)
+
+		if (selectedEntity == null && selectedRelationship != null)
 			selectedRelationship.select();
-		else
-			selectedRelationship = null;
+
+		for (DescriptionBox b : model.descriptions)
+		{
+			if (deselect)
+				b.deselect();
+			if (b.isAffectedByTouch(p))
+			{
+				hitsObject = true;
+				for (ERSelectionNotifier ersn : notifier)
+					ersn.didSelectDescriptionBox(b);
+				selectedDescription = b;
+			}
+		}
+
+		if (selectedEntity == null && selectedRelationship == null && selectedDescription != null)
+			selectedDescription.select();
+
 		dragsObject = hitsObject;
 		draggingStart = new Point((int) (e.getX() / zoom), (int) (e.getY() / zoom));
 		draggingPrevious = new Point((int) (e.getX() / zoom), (int) (e.getY() / zoom));
@@ -427,6 +500,8 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 				ersn.didSelectRelationship(null);
 			for (ERSelectionNotifier ersn : notifier)
 				ersn.didSelectEntity(null);
+			for (ERSelectionNotifier ersn : notifier)
+				ersn.didSelectDescriptionBox(null);
 		}
 		repaint();
 	}
@@ -440,13 +515,16 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			int n_drag_y = draggingStart.y - draggingEnd.y;
 			if (n_drag_x != 0 || n_drag_y != 0)
 			{
-				ArrayList<ERObject> draggedObjects = new ArrayList<ERObject>();
+				List<ERObject> draggedObjects = new ArrayList<>();
 				for (Entity en : model.entities)
 					if (en.selected)
 						draggedObjects.add(en);
 				for (Relationship r : model.relationships)
 					if (r.selected)
 						draggedObjects.add(r);
+				for (DescriptionBox b : model.descriptions)
+					if (b.selected)
+						draggedObjects.add(b);
 				Point[] before = new Point[draggedObjects.size()];
 				Point[] after = new Point[draggedObjects.size()];
 				for (int i = 0; i < draggedObjects.size(); i++)
@@ -458,7 +536,7 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 					before[i].x = after[i].x + n_drag_x;
 					before[i].y = after[i].y + n_drag_y;
 				}
-				ERObject[] d_objects = draggedObjects.toArray(new ERObject[0]);
+				ERObject[] d_objects = draggedObjects.toArray(new ERObject[draggedObjects.size()]);
 				EntityChangeEvent changeEvent = new EntityChangeEvent(d_objects, EntityChangeEvent.CHANGE_POSITION_MULTIPLE, before, after);
 				history.pushEvent(changeEvent);
 			}
@@ -483,11 +561,14 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			e.deselect();
 		for (Relationship r : model.relationships)
 			r.deselect();
+		for (DescriptionBox b : model.descriptions)
+			b.deselect();
 		ERObject[] objects = (ERObject[]) Toolkit.getDefaultToolkit().getSystemClipboard()
 				.getData(new DataFlavor(ERObject.class, "Entity-Relationship Object"));
 				
-		ArrayList<Entity> addedEntities = new ArrayList<Entity>();
-		ArrayList<Relationship> addedRelationships = new ArrayList<Relationship>();
+		List<Entity> addedEntities = new ArrayList<>();
+		List<Relationship> addedRelationships = new ArrayList<>();
+		List<DescriptionBox> addedDescriptions = new ArrayList<>();
 		
 		for (ERObject obj : objects)
 		{
@@ -538,6 +619,11 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 				addedRelationships.add((Relationship) obj);
 				model.relationships.add((Relationship) obj);
 			}
+			else if (obj instanceof DescriptionBox)
+			{
+				addedDescriptions.add((DescriptionBox) obj);
+				model.descriptions.add((DescriptionBox) obj);
+			}
 			if (addedEntities.size() > 0)
 			{
 				EntityChangeEvent changeEvent = new EntityChangeEvent(model.entities, EntityChangeEvent.CHANGE_PASTE, null, addedEntities);
@@ -547,6 +633,11 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			{
 				RelationshipChangeEvent changeEvent = new RelationshipChangeEvent(model.relationships, RelationshipChangeEvent.CHANGE_PASTE,
 						null, addedRelationships);
+				history.pushEvent(changeEvent);
+			}
+			if (addedDescriptions.size() > 0)
+			{
+				DescriptionBoxChangeEvent changeEvent = new DescriptionBoxChangeEvent(model.descriptions, DescriptionBoxChangeEvent.CHANGE_PASTE, null, addedDescriptions);
 				history.pushEvent(changeEvent);
 			}
 		}
@@ -606,6 +697,8 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			e.select();
 		for (Relationship r : model.relationships)
 			r.select();
+		for (DescriptionBox b : model.descriptions)
+			b.select();
 	}
 	
 	public void setChangeHistory(ERChangeHistory history)
@@ -658,7 +751,14 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			maxX = (int) Math.max(maxX, e1.bounds.getMaxX() * zoom + 200 * zoom);
 			maxY = (int) Math.max(maxY, e1.bounds.getMaxY() * zoom + 200 * zoom);
 		}
-		
+
+		for (DescriptionBox b : model.descriptions)
+		{
+			Rectangle bounds = b.bounds;
+			maxX = (int) Math.max(maxX, bounds.getMaxX() * zoom + 200 * zoom);
+			maxY = (int) Math.max(maxY, bounds.getMaxY() * zoom + 200 * zoom);
+		}
+
 		setSize(maxX, maxY);
 		setPreferredSize(new Dimension(maxX, maxY));
 		
@@ -676,11 +776,14 @@ public class ERView extends JComponent implements MouseMotionListener, MouseList
 			g.drawLine(0, y, (int) (maxX / zoom), y);
 			
 		g.setStroke(new BasicStroke(1));
-		
+
+		for (DescriptionBox b : model.descriptions)
+			b.paint(g);
 		for (Relationship r : model.relationships)
 			r.paint(g);
 		for (Entity e : model.entities)
 			e.paint(g);
+
 			
 		g.scale(1.0f / zoom, 1.0f / zoom);
 		if (dragging && !dragsObject)

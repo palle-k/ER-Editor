@@ -24,11 +24,11 @@
   * THE SOFTWARE.
   */
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ERModelQuery
 {
-	public ArrayList<Entity> getAllEntities();
+	public List<Entity> getAllEntities();
 	
-	public ArrayList<Relationship> getAllRelationships();
+	public List<Relationship> getAllRelationships();
 }

@@ -1,3 +1,18 @@
+import javax.swing.Action;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.GraphicsConfiguration;
@@ -15,22 +30,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.lang.reflect.Method;
-
-import javax.swing.Action;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.KeyStroke;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
-import javax.swing.border.EmptyBorder;
 
 /**
   * EReditor
@@ -65,7 +64,7 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 	
 	private JMenuItem	menuNew, menuOpen, menuClose, menuSave, menuSaveAs, menuExportImage, menuExportModel;
 	private JMenuItem	menuCut, menuCopy, menuPaste, menuDelete, menuUndo, menuRedo, menuSelectAll;
-	private JMenuItem	menuAddEntity, menuAddRelationship;
+	private JMenuItem	menuAddEntity, menuAddRelationship, menuAddDescriptionBox;
 	private JMenuItem	menuZoomOriginal, menuZoomIn, menuZoomOut, menuExpand, menuImplode;
 	private JMenuItem	menuItemHelp, menuItemAbout;
 	private JMenu		menuExport;
@@ -82,21 +81,18 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 	{
 		super(gc);
 		init();
-		
 	}
 	
 	public ERFrame(String title) throws HeadlessException
 	{
 		super(title);
 		init();
-		
 	}
 	
 	public ERFrame(String title, GraphicsConfiguration gc)
 	{
 		super(title, gc);
 		init();
-		
 	}
 	
 	@Override
@@ -225,6 +221,8 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 					erView.addEntity();
 				else if (e.getSource() == menuAddRelationship)
 					erView.requestRelationship();
+				else if (e.getSource() == menuAddDescriptionBox)
+					erView.addDescriptionBox();
 				else if (e.getSource() == menuZoomOriginal)
 					erView.zoomOriginal();
 				else if (e.getSource() == menuZoomIn)
@@ -232,7 +230,7 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 				else if (e.getSource() == menuZoomOut)
 					erView.zoomOut();
 				else if (e.getSource() == menuImplode)
-					erView.implode();
+					erView.shrink();
 				else if (e.getSource() == menuExpand)
 					erView.expand();
 				else if (e.getSource() == menuItemHelp)
@@ -289,14 +287,14 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 		JLabel appName = new JLabel();
 		appName.setBounds(0, 0, 200, 120);
 		appName.setText("<html><head><style>body { text-align: center; width: 150px; }</style></head>"
-				+ "<body><h1 style=\"font-weight:100;font-size:16px;\">ER-Editor</h1><p style=\"font-size:9px;\">v3.5.0<br><br>&copy; 2014 - 2015 Palle</p>");
+				+ "<body><h1 style=\"font-weight:100;font-size:16px;\">ER-Editor</h1><p style=\"font-size:9px;\">v3.6.0<br><br>&copy; 2014 - 2015 Palle</p>");
 		about.add(appName);
 		about.setVisible(true);
 	}
 	
 	private void init()
 	{
-		final JFrame self = this;
+		final ERFrame self = this;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ER_FrameLayout layout = new ER_FrameLayout();
 		setLayout(layout);
@@ -316,9 +314,12 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 			public void windowClosing(WindowEvent e)
 			{
 				if (!erView.model.isEmpty() && erView.model.needsSave())
-					if (JOptionPane.showConfirmDialog(self, "Soll das aktuelle Modell gesichert werden?", "Sichern",
+					if (JOptionPane.showConfirmDialog(self, ER_Editor.LOCALIZATION.getString("save_confirmation"), ER_Editor.LOCALIZATION.getString("save_confirm_option"),
 							JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
 						erView.model.save(self);
+				self.removeWindowListener(this);
+				self.setVisible(false);
+				self.dispose();
 				ER_Editor.openedFrames.remove(self);
 			}
 		});
@@ -333,12 +334,9 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 			Method method = util.getMethod("setWindowCanFullScreen", params);
 			method.invoke(util, this, true);
 		}
-		catch (
-		
-		Exception e)
-		
+		catch (Exception e)
 		{
-		
+			System.err.println("Apple full screen utilities not found.");
 		}
 		changeHistory = new ERChangeHistory();
 		changeHistory.setHistoryChangeNotifier(this);
@@ -523,6 +521,14 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 			menuAddRelationship.setText(ER_Editor.LOCALIZATION.getString("add_relationship"));
 			menuAddRelationship.addActionListener(this);
 			menuModel.add(menuAddRelationship);
+
+			menuAddDescriptionBox = new JMenuItem();
+			menuAddDescriptionBox.setText(ER_Editor.LOCALIZATION.getString("add_description_box"));
+			menuAddDescriptionBox.setMnemonic('D');
+			menuAddDescriptionBox.setAccelerator(
+					KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK));
+			menuAddDescriptionBox.addActionListener(this);
+			menuModel.add(menuAddDescriptionBox);
 		}
 		menuBar.add(menuModel);
 		
@@ -591,18 +597,5 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 		setTitle("ER-Editor: " + erView.model.getFilename());
 		ER_Editor.openedFrames.add(this);
 		setVisible(true);
-		
-		// if (System.getProperty("os.name").toLowerCase().startsWith("mac os x"))
-		// {
-		// com.apple.eawt.Application app = com.apple.eawt.Application.getApplication();
-		// app.setAboutHandler(new com.apple.eawt.AboutHandler()
-		// {
-		// @Override
-		// public void handleAbout(com.apple.eawt.AppEvent.AboutEvent arg0)
-		// {
-		// showAboutWindow();
-		// }
-		// });
-		// }
 	}
 }

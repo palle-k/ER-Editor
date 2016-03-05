@@ -24,12 +24,11 @@
   * THE SOFTWARE.
   */
 
+import javax.swing.JScrollPane;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
-
-import javax.swing.JScrollPane;
 
 public class ER_FrameLayout implements LayoutManager, ERSelectionNotifier
 {
@@ -55,6 +54,12 @@ public class ER_FrameLayout implements LayoutManager, ERSelectionNotifier
 	public void didSelectRelationship(Relationship r)
 	{
 		entityVisible = r != null;
+	}
+
+	@Override
+	public void didSelectDescriptionBox(final DescriptionBox b)
+	{
+		entityVisible = b != null;
 	}
 	
 	@Override
