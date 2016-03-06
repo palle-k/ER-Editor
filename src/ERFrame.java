@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
   * EReditor
   * ERFrame.java
   * Created by Palle Klewitz on 01.11.2015  
-  * Copyright (c) 2014 - 2015 Palle. 
+  * Copyright (c) 2014 - 2016 Palle.
   * Permission is hereby granted, free of charge, to any person obtaining a copy
   * of this software and associated documentation files (the "Software"), to deal
   * in the Software without restriction, including without limitation the rights
@@ -287,7 +287,7 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 		JLabel appName = new JLabel();
 		appName.setBounds(0, 0, 200, 120);
 		appName.setText("<html><head><style>body { text-align: center; width: 150px; }</style></head>"
-				+ "<body><h1 style=\"font-weight:100;font-size:16px;\">ER-Editor</h1><p style=\"font-size:9px;\">v3.6.0<br><br>&copy; 2014 - 2015 Palle</p>");
+				+ "<body><h1 style=\"font-weight:100;font-size:16px;\">ER-Editor</h1><p style=\"font-size:9px;\">v3.6.0<br><br>&copy; 2014 - 2016 Palle</p>");
 		about.add(appName);
 		about.setVisible(true);
 	}

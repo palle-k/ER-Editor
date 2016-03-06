@@ -3,7 +3,7 @@
   * EReditor
   * ER_Editor.java
   * Created by Palle on 14.05.2014
-  * Copyright (c) 2014 - 2015 Palle
+  * Copyright (c) 2014 - 2016 Palle
   * 
   * Permission is hereby granted, free of charge, to any person obtaining a copy
   * of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,18 @@
   * THE SOFTWARE.
   */
 
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ER_Editor
 {
 	public static ResourceBundle LOCALIZATION;
 	
-	protected static ArrayList<ERFrame> openedFrames;
+	protected static List<ERFrame> openedFrames;
 	
 	public static void main(String[] args)
 	{
@@ -51,7 +51,7 @@ public class ER_Editor
 		}
 		Locale locale = Locale.getDefault();
 		LOCALIZATION = ResourceBundle.getBundle("Localizable", locale);
-		openedFrames = new ArrayList<ERFrame>();
-		SwingUtilities.invokeLater(() -> new ERFrame());
+		openedFrames = new ArrayList<>();
+		SwingUtilities.invokeLater(ERFrame::new);
 	}
 }

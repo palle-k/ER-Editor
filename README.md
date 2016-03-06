@@ -26,14 +26,14 @@ Editor for Creation and Editing of Entity-Relationship-Models
 
 ##Installation
 1. Make sure you have installed JRE 1.8 or newer.
-2. Download [ER-Editor.jar](https://github.com/palle-k/ER-Editor/releases/download/3.4.1/ER_Editor.jar)
+2. Download [ER-Editor.jar](https://github.com/palle-k/ER-Editor/releases/download/3.6.0/ER_Editor.jar)
 3. Double click the downloaded file to start ER-Editor
 
 ##Documentation
 A detailed documentation can be found inside the app by clicking on Help>Show Help
 
 ##License
-Copyright (c) 2015 Palle
+Copyright (c) 2015 - 2016 Palle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
