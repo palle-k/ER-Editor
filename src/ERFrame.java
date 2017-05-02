@@ -495,7 +495,7 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 			menuDelete = new JMenuItem();
 			menuDelete.setText(ER_Editor.LOCALIZATION.getString("delete"));
 			menuDelete.setMnemonic('A');
-			menuDelete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
+			menuDelete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 			menuDelete.addActionListener(this);
 			menuEdit.add(menuDelete);
 			
