@@ -1,51 +1,26 @@
-import javax.swing.Action;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.KeyStroke;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
   * EReditor
   * ERFrame.java
-  * Created by Palle Klewitz on 01.11.2015  
-  * Copyright (c) 2014 - 2016 Palle.
+  * Created by Palle Klewitz on 01.11.2015
+  * Copyright (c) 2014 - 2017 Palle.
   * Permission is hereby granted, free of charge, to any person obtaining a copy
   * of this software and associated documentation files (the "Software"), to deal
   * in the Software without restriction, including without limitation the rights
   * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   * copies of the Software, and to permit persons to whom the Software is
   * furnished to do so, subject to the following conditions:
-  * 
+  *
   * The above copyright notice and this permission notice shall be included in
   * all copies or substantial portions of the Software.
-  * 
+  *
   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -99,147 +74,135 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 	public void actionPerformed(final ActionEvent e)
 	{
 		final JFrame self = this;
-		SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(() ->
 		{
-			@Override
-			public void run()
+			if (e.getSource() == menuNew)
 			{
-				if (e.getSource() == menuNew)
-				{
-					// if (!erView.model.isEmpty())
-					// if (JOptionPane.showConfirmDialog(self,
-					// ER_Editor.LOCALIZATION.getString("save_confirmation"),
-					// ER_Editor.LOCALIZATION.getString("save_confirm_option"),
-					// JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
-					// erView.model.save(self);
-					// changeHistory.reset();
-					ERFrame newFrame = new ERFrame();
-					newFrame.setModel(new ERModel());
-					// erView.model = new ERModel();
-				}
-				else if (e.getSource() == menuOpen)
-				{
-					// if (!erView.model.isEmpty())
-					// if (JOptionPane.showConfirmDialog(self,
-					// ER_Editor.LOCALIZATION.getString("save_confirmation"),
-					// ER_Editor.LOCALIZATION.getString("save_confirm_option"),
-					// JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
-					// erView.model.save(self);
-					// changeHistory.reset();
-					Thread loadThread = new Thread()
-					{
-						@Override
-						public void run()
-						{
-							ERModel model = ERModel.open(self);
-							SwingUtilities.invokeLater(new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									ERFrame newFrame = new ERFrame();
-									newFrame.setModel((model == null) ? new ERModel() : model);
-								}
-							});
-						}
-					};
-					loadThread.start();
-				}
-				else if (e.getSource() == menuClose)
-					self.dispatchEvent(new WindowEvent(self, WindowEvent.WINDOW_CLOSING));
-				else if (e.getSource() == menuSave)
-				{
-					getRootPane().putClientProperty("Window.documentModified", Boolean.TRUE);
-					erView.model.save(self);
-				}
-				else if (e.getSource() == menuSaveAs)
-					erView.model.saveAs(self);
-				else if (e.getSource() == menuExportImage)
-					erView.model.export();
-				else if (e.getSource() == menuExportModel)
-					erView.model.exportModel();
-				else if (e.getSource() == menuUndo)
-				{
-					if (changeHistory.canUndo())
-					{
-						changeHistory.undo();
-						erView.deselectAll();
-					}
-				}
-				else if (e.getSource() == menuRedo)
-				{
-					if (changeHistory.canRedo())
-					{
-						changeHistory.redo();
-						erView.deselectAll();
-					}
-				}
-				else if (e.getSource() == menuCut)
-				{
-					if (erView.isFocusOwner())
-						try
-						{
-							erView.cutSelected();
-						}
-						catch (IOException e1)
-						{
-							e1.printStackTrace();
-						}
-					// TODO CUT FOR EntityEditor/RelationshipEditor
-				}
-				else if (e.getSource() == menuCopy)
-				{
-					if (erView.isFocusOwner())
-						try
-						{
-							erView.copySelected();
-						}
-						catch (IOException e1)
-						{
-							e1.printStackTrace();
-						}
-					// TODO COPY FOR EntityEditor/RelationshipEditor
-				}
-				else if (e.getSource() == menuPaste)
-				{
-					if (erView.isFocusOwner())
-						try
-						{
-							erView.paste();
-						}
-						catch (HeadlessException | ClassNotFoundException | UnsupportedFlavorException | IOException e1)
-						{
-							e1.printStackTrace();
-						}
-					// TODO PASTE FOR EntityEditor/RelationshipEditor
-				}
-				else if (e.getSource() == menuSelectAll)
-					erView.selectAll();
-				else if (e.getSource() == menuDelete)
-					erView.deleteSelected();
-				else if (e.getSource() == menuAddEntity)
-					erView.addEntity();
-				else if (e.getSource() == menuAddRelationship)
-					erView.requestRelationship();
-				else if (e.getSource() == menuAddDescriptionBox)
-					erView.addDescriptionBox();
-				else if (e.getSource() == menuZoomOriginal)
-					erView.zoomOriginal();
-				else if (e.getSource() == menuZoomIn)
-					erView.zoomIn();
-				else if (e.getSource() == menuZoomOut)
-					erView.zoomOut();
-				else if (e.getSource() == menuImplode)
-					erView.shrink();
-				else if (e.getSource() == menuExpand)
-					erView.expand();
-				else if (e.getSource() == menuItemHelp)
-					new HelpWindow();
-				else if (e.getSource() == menuItemAbout)
-					showAboutWindow();
-				erView.repaint();
-				setTitle("ER-Editor: " + erView.model.getFilename());
+				// if (!erView.model.isEmpty())
+				// if (JOptionPane.showConfirmDialog(self,
+				// ER_Editor.LOCALIZATION.getString("save_confirmation"),
+				// ER_Editor.LOCALIZATION.getString("save_confirm_option"),
+				// JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
+				// erView.model.save(self);
+				// changeHistory.reset();
+				ERFrame newFrame = new ERFrame();
+				newFrame.setModel(new ERModel());
+				// erView.model = new ERModel();
 			}
+			else if (e.getSource() == menuOpen)
+			{
+				// if (!erView.model.isEmpty())
+				// if (JOptionPane.showConfirmDialog(self,
+				// ER_Editor.LOCALIZATION.getString("save_confirmation"),
+				// ER_Editor.LOCALIZATION.getString("save_confirm_option"),
+				// JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
+				// erView.model.save(self);
+				// changeHistory.reset();
+				Thread loadThread = new Thread(() ->
+				{
+					ERModel model = ERModel.open(self);
+					SwingUtilities.invokeLater(() ->
+					{
+						ERFrame newFrame = new ERFrame();
+						newFrame.setModel((model == null) ? new ERModel() : model);
+					});
+				});
+				loadThread.start();
+			}
+			else if (e.getSource() == menuClose)
+				self.dispatchEvent(new WindowEvent(self, WindowEvent.WINDOW_CLOSING));
+			else if (e.getSource() == menuSave)
+			{
+				getRootPane().putClientProperty("Window.documentModified", Boolean.TRUE);
+				erView.model.save(self);
+			}
+			else if (e.getSource() == menuSaveAs)
+				erView.model.saveAs(self);
+			else if (e.getSource() == menuExportImage)
+				erView.model.export();
+			else if (e.getSource() == menuExportModel)
+				erView.model.exportModel();
+			else if (e.getSource() == menuUndo)
+			{
+				if (changeHistory.canUndo())
+				{
+					changeHistory.undo();
+					erView.deselectAll();
+				}
+			}
+			else if (e.getSource() == menuRedo)
+			{
+				if (changeHistory.canRedo())
+				{
+					changeHistory.redo();
+					erView.deselectAll();
+				}
+			}
+			else if (e.getSource() == menuCut)
+			{
+				if (erView.isFocusOwner())
+					try
+					{
+						erView.cutSelected();
+					}
+					catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				// TODO CUT FOR EntityEditor/RelationshipEditor
+			}
+			else if (e.getSource() == menuCopy)
+			{
+				if (erView.isFocusOwner())
+					try
+					{
+						erView.copySelected();
+					}
+					catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				// TODO COPY FOR EntityEditor/RelationshipEditor
+			}
+			else if (e.getSource() == menuPaste)
+			{
+				if (erView.isFocusOwner())
+					try
+					{
+						erView.paste();
+					}
+					catch (HeadlessException | ClassNotFoundException | UnsupportedFlavorException | IOException e1)
+					{
+						e1.printStackTrace();
+					}
+				// TODO PASTE FOR EntityEditor/RelationshipEditor
+			}
+			else if (e.getSource() == menuSelectAll)
+				erView.selectAll();
+			else if (e.getSource() == menuDelete)
+				erView.deleteSelected();
+			else if (e.getSource() == menuAddEntity)
+				erView.addEntity();
+			else if (e.getSource() == menuAddRelationship)
+				erView.requestRelationship();
+			else if (e.getSource() == menuAddDescriptionBox)
+				erView.addDescriptionBox();
+			else if (e.getSource() == menuZoomOriginal)
+				erView.zoomOriginal();
+			else if (e.getSource() == menuZoomIn)
+				erView.zoomIn();
+			else if (e.getSource() == menuZoomOut)
+				erView.zoomOut();
+			else if (e.getSource() == menuImplode)
+				erView.shrink();
+			else if (e.getSource() == menuExpand)
+				erView.expand();
+			else if (e.getSource() == menuItemHelp)
+				new HelpWindow();
+			else if (e.getSource() == menuItemAbout)
+				showAboutWindow();
+			erView.repaint();
+			setTitle("ER-Editor: " + erView.model.getFilename());
 		});
 	}
 	
@@ -292,6 +255,7 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 		about.setVisible(true);
 	}
 	
+	@SuppressWarnings("MagicConstant")
 	private void init()
 	{
 		final ERFrame self = this;
@@ -353,14 +317,10 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 		spERView.getHorizontalScrollBar().setUnitIncrement(6);
 		spERView.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
-		AdjustmentListener adjustmentListener = new AdjustmentListener()
+		AdjustmentListener adjustmentListener = e ->
 		{
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e)
-			{
-				JViewport viewPort = spERView.getViewport();
-				erView.setVisibleRect(viewPort.getViewRect());
-			}
+			JViewport viewPort = spERView.getViewport();
+			erView.setVisibleRect(viewPort.getViewRect());
 		};
 		spERView.getHorizontalScrollBar().addAdjustmentListener(adjustmentListener);
 		spERView.getVerticalScrollBar().addAdjustmentListener(adjustmentListener);
@@ -494,11 +454,10 @@ public class ERFrame extends JFrame implements ActionListener, ERHistoryChangeNo
 			
 			menuDelete = new JMenuItem();
 			menuDelete.setText(ER_Editor.LOCALIZATION.getString("delete"));
-			menuDelete.setMnemonic('A');
-			menuDelete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
+			menuDelete.setMnemonic('D');
+			menuDelete.setAccelerator(KeyStroke.getKeyStroke(System.getProperty("os.name").equals("Mac OS X") ? KeyEvent.VK_BACK_SPACE : KeyEvent.VK_DELETE, 0));
 			menuDelete.addActionListener(this);
 			menuEdit.add(menuDelete);
-			
 		}
 		menuBar.add(menuEdit);
 		

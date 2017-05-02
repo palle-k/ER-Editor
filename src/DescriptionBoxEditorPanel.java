@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
   * EReditor
   * DescriptionBoxEditorPanel.java
   * Created by Palle Klewitz on 04.11.2015
-  * Copyright (c) 2015 - 2016 Palle Klewitz. All rights reserved.
+  * Copyright (c) 2015 - 2017 Palle Klewitz. All rights reserved.
   */
 
 public class DescriptionBoxEditorPanel extends JPanel implements KeyListener

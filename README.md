@@ -1,10 +1,10 @@
-#ER-Editor
+# ER-Editor
 
 Editor for Creation and Editing of Entity-Relationship-Models
 
 ![ER-Editor-Example](http://i.imgur.com/arXphXx.png "ER-Editor-Example")
 
-##Features
+## Features
 * Creation of ER-Models
   * Easy adding of Entitäten and Relationships
   * Entities
@@ -24,16 +24,16 @@ Editor for Creation and Editing of Entity-Relationship-Models
 * Platform independent. Works on any Computer that has Java installed.
 * Optimized for Mac OS X: Native fullscreen and menu bar support.
 
-##Installation
+## Installation
 1. Make sure you have installed JRE 1.8 or newer.
 2. Download [ER-Editor.jar](https://github.com/palle-k/ER-Editor/releases/download/3.6.0/ER-Editor.jar)
 3. Double click the downloaded file to start ER-Editor
 
-##Documentation
+## Documentation
 A detailed documentation can be found inside the app by clicking on Help>Show Help
 
-##License
-Copyright (c) 2015 - 2016 Palle
+## License
+Copyright (c) 2015 - 2017 Palle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
