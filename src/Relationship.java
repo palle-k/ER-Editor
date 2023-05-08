@@ -24,6 +24,7 @@
   * THE SOFTWARE.
   */
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -41,6 +42,8 @@ public class Relationship extends ERObject
 	private Entity	e2;
 	private boolean	e1toMany;
 	private boolean	e2toMany;
+	private boolean e1total;
+	private boolean e2total;
 	
 	public Relationship()
 	{
@@ -60,6 +63,11 @@ public class Relationship extends ERObject
 	{
 		return e1toMany;
 	}
+
+	public boolean getFirstEntityTotal()
+	{
+		return e1total;
+	}
 	
 	public Entity getSecondEntity()
 	{
@@ -69,6 +77,11 @@ public class Relationship extends ERObject
 	public boolean getSecondEntityToMany()
 	{
 		return e2toMany;
+	}
+
+	public boolean getSecondEntityTotal()
+	{
+		return e2total;
 	}
 	
 	@Override
@@ -235,21 +248,31 @@ public class Relationship extends ERObject
 			}
 		}
 		
+		String cardinality1;
+		String cardinality2;
+		cardinality1 = (e1toMany) ? "n" : "1";
+		if (e1toMany) 	cardinality2 = (e2toMany) ? "m" : "1";
+		else 			cardinality2 = (e2toMany) ? "n" : "1";
+		int cardinality1Offset = g.getFontMetrics().stringWidth(cardinality1) / 2;
+		int cardinality2Offset = g.getFontMetrics().stringWidth(cardinality2) / 2;
 		if (e1.bounds.getCenterX() < e2.bounds.getCenterX())
 		{
-			g.drawString((e1toMany) ? "n" : "1", bounds.x - 5, bounds.y + 30);
-			if (e1toMany)
-				g.drawString((e2toMany) ? "m" : "1", bounds.x + bounds.width + 5, bounds.y + 30);
-			else
-				g.drawString((e2toMany) ? "n" : "1", bounds.x + bounds.width + 5, bounds.y + 30);
+			g.drawString(cardinality1, bounds.x - 4 - cardinality1Offset, bounds.y + 30);
+			g.drawString(cardinality2, bounds.x + bounds.width + 4 - cardinality2Offset, bounds.y + 30);
 		}
 		else
 		{
-			g.drawString((e1toMany) ? "n" : "1", bounds.x + bounds.width + 5, bounds.y + 30);
-			if (e1toMany)
-				g.drawString((e2toMany) ? "m" : "1", bounds.x - 5, bounds.y + 30);
-			else
-				g.drawString((e2toMany) ? "n" : "1", bounds.x - 5, bounds.y + 30);
+			g.drawString(cardinality1, bounds.x + bounds.width + 4 - cardinality1Offset, bounds.y + 30);
+			g.drawString(cardinality2, bounds.x - 4 - cardinality2Offset, bounds.y + 30);
+		}
+
+		if (e1total)
+		{
+			g.fillOval(bounds.x - 9, bounds.y + bounds.height/2 - 5, 10, 10);
+		}
+		if (e2total)
+		{
+			g.fillOval(bounds.x + bounds.width - 1, bounds.y + bounds.height/2 - 5, 10, 10);
 		}
 		
 		Polygon p = new Polygon();
@@ -296,7 +319,15 @@ public class Relationship extends ERObject
 	{
 		e1toMany = toMany;
 	}
-	
+
+	public void setFirstEntityTotal(boolean e1total) {
+		this.e1total = e1total;
+	}
+
+	public void setSecondEntityTotal(boolean e2total) {
+		this.e2total = e2total;
+	}
+
 	public void setSecondEntity(Entity e2)
 	{
 		this.e2 = e2;

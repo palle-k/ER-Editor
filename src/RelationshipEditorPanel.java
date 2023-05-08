@@ -56,6 +56,8 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener, K
 	private final JRadioButton		rbnCardinality2toOne;
 	private final JRadioButton		rbnCardinality2toMany;
 	private final ButtonGroup		bgpCardinality2;
+	private final JCheckBox			cbxTotality1;
+	private final JCheckBox			cbxTotality2;
 	private final JCheckBox			cbxIsWeakRelationship;
 	private ERModelQuery			query;
 	private RepaintRequest			request;
@@ -66,12 +68,12 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener, K
 		setLayout(null);
 		
 		lblRelationshipName = new JLabel();
-		lblRelationshipName.setBounds(5, 74, 100, 27);
+		lblRelationshipName.setBounds(5, 111, 100, 27);
 		lblRelationshipName.setText(ER_Editor.LOCALIZATION.getString("relationship_role"));
 		add(lblRelationshipName);
 		
 		txtRelationshipName = new JTextField();
-		txtRelationshipName.setBounds(110, 74, 180, 27);
+		txtRelationshipName.setBounds(110, 111, 180, 27);
 		txtRelationshipName.addKeyListener(this);
 		add(txtRelationshipName);
 		
@@ -101,34 +103,40 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener, K
 		rbnCardinality1toMany.setText("N");
 		rbnCardinality1toMany.addActionListener(this);
 		add(rbnCardinality1toMany);
+
+		cbxTotality1 = new JCheckBox();
+		cbxTotality1.setBounds(5, 74, 280, 27);
+		cbxTotality1.setText(ER_Editor.LOCALIZATION.getString("relationship_totality"));
+		cbxTotality1.addActionListener(this);
+		add(cbxTotality1);
 		
 		bgpCardinality1 = new ButtonGroup();
 		bgpCardinality1.add(rbnCardinality1toMany);
 		bgpCardinality1.add(rbnCardinality1toOne);
 		
 		lblRelationshipEntity2 = new JLabel();
-		lblRelationshipEntity2.setBounds(5, 111, 100, 27);
+		lblRelationshipEntity2.setBounds(5, 148, 100, 27);
 		lblRelationshipEntity2.setText(ER_Editor.LOCALIZATION.getString("relationship_second_entity"));
 		add(lblRelationshipEntity2);
 		
 		cbxRelationshipEntity2 = new JComboBox<String>();
-		cbxRelationshipEntity2.setBounds(110, 111, 180, 27);
+		cbxRelationshipEntity2.setBounds(110, 148, 180, 27);
 		cbxRelationshipEntity2.addActionListener(this);
 		add(cbxRelationshipEntity2);
 		
 		lblCardinality2 = new JLabel();
-		lblCardinality2.setBounds(5, 148, 100, 27);
+		lblCardinality2.setBounds(5, 185, 100, 27);
 		lblCardinality2.setText(ER_Editor.LOCALIZATION.getString("relationship_cardinality"));
 		add(lblCardinality2);
 		
 		rbnCardinality2toOne = new JRadioButton();
-		rbnCardinality2toOne.setBounds(110, 148, 80, 27);
+		rbnCardinality2toOne.setBounds(110, 185, 80, 27);
 		rbnCardinality2toOne.setText("1");
 		rbnCardinality2toOne.addActionListener(this);
 		add(rbnCardinality2toOne);
 		
 		rbnCardinality2toMany = new JRadioButton();
-		rbnCardinality2toMany.setBounds(200, 148, 80, 27);
+		rbnCardinality2toMany.setBounds(200, 185, 80, 27);
 		rbnCardinality2toMany.setText("N");
 		rbnCardinality2toMany.addActionListener(this);
 		add(rbnCardinality2toMany);
@@ -136,9 +144,15 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener, K
 		bgpCardinality2 = new ButtonGroup();
 		bgpCardinality2.add(rbnCardinality2toMany);
 		bgpCardinality2.add(rbnCardinality2toOne);
+
+		cbxTotality2 = new JCheckBox();
+		cbxTotality2.setBounds(5, 217, 280, 27);
+		cbxTotality2.setText(ER_Editor.LOCALIZATION.getString("relationship_totality"));
+		cbxTotality2.addActionListener(this);
+		add(cbxTotality2);
 		
 		cbxIsWeakRelationship = new JCheckBox();
-		cbxIsWeakRelationship.setBounds(5, 185, 280, 27);
+		cbxIsWeakRelationship.setBounds(5, 254, 280, 27);
 		cbxIsWeakRelationship.setText(ER_Editor.LOCALIZATION.getString("relationship_weak"));
 		cbxIsWeakRelationship.addActionListener(this);
 		add(cbxIsWeakRelationship);
@@ -185,6 +199,20 @@ public class RelationshipEditorPanel extends JPanel implements ActionListener, K
 					rbnCardinality2toMany.isSelected());
 			history.pushEvent(changeEvent);
 			relationship.setSecondEntityToMany(rbnCardinality2toMany.isSelected());
+		}
+		else if (e.getSource() == cbxTotality1)
+		{
+			RelationshipChangeEvent changeEvent = new RelationshipChangeEvent(relationship, RelationshipChangeEvent.CHANGE_WEAK,
+					!cbxTotality1.isSelected(), cbxTotality1.isSelected());
+			history.pushEvent(changeEvent);
+			relationship.setFirstEntityTotal(cbxTotality1.isSelected());
+		}
+		else if (e.getSource() == cbxTotality2)
+		{
+			RelationshipChangeEvent changeEvent = new RelationshipChangeEvent(relationship, RelationshipChangeEvent.CHANGE_WEAK,
+					!cbxTotality2.isSelected(), cbxTotality2.isSelected());
+			history.pushEvent(changeEvent);
+			relationship.setSecondEntityTotal(cbxTotality2.isSelected());
 		}
 		else if (e.getSource() == cbxIsWeakRelationship)
 		{
