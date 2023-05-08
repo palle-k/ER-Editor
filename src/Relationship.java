@@ -248,21 +248,23 @@ public class Relationship extends ERObject
 			}
 		}
 		
+		String cardinality1;
+		String cardinality2;
+		cardinality1 = (e1toMany) ? "n" : "1";
+		if (e1toMany) 	cardinality2 = (e2toMany) ? "m" : "1";
+		else 			cardinality2 = (e2toMany) ? "n" : "1";
+		int cardinality1Offset = g.getFontMetrics().stringWidth(cardinality1) / 2;
+		int cardinality2Offset = g.getFontMetrics().stringWidth(cardinality2) / 2;
+		System.out.println(cardinality1 + ": " + cardinality1Offset + ", " + cardinality2 + ": " + cardinality2Offset);
 		if (e1.bounds.getCenterX() < e2.bounds.getCenterX())
 		{
-			g.drawString((e1toMany) ? "n" : "1", bounds.x - 5, bounds.y + 30);
-			if (e1toMany)
-				g.drawString((e2toMany) ? "m" : "1", bounds.x + bounds.width + 5, bounds.y + 30);
-			else
-				g.drawString((e2toMany) ? "n" : "1", bounds.x + bounds.width + 5, bounds.y + 30);
+			g.drawString(cardinality1, bounds.x - 4 - cardinality1Offset, bounds.y + 30);
+			g.drawString(cardinality2, bounds.x + bounds.width + 4 - cardinality2Offset, bounds.y + 30);
 		}
 		else
 		{
-			g.drawString((e1toMany) ? "n" : "1", bounds.x + bounds.width + 5, bounds.y + 30);
-			if (e1toMany)
-				g.drawString((e2toMany) ? "m" : "1", bounds.x - 5, bounds.y + 30);
-			else
-				g.drawString((e2toMany) ? "n" : "1", bounds.x - 5, bounds.y + 30);
+			g.drawString(cardinality1, bounds.x + bounds.width + 4 - cardinality1Offset, bounds.y + 30);
+			g.drawString(cardinality2, bounds.x - 4 - cardinality2Offset, bounds.y + 30);
 		}
 
 		if (e1total)
