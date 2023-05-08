@@ -255,7 +255,6 @@ public class Relationship extends ERObject
 		else 			cardinality2 = (e2toMany) ? "n" : "1";
 		int cardinality1Offset = g.getFontMetrics().stringWidth(cardinality1) / 2;
 		int cardinality2Offset = g.getFontMetrics().stringWidth(cardinality2) / 2;
-		System.out.println(cardinality1 + ": " + cardinality1Offset + ", " + cardinality2 + ": " + cardinality2Offset);
 		if (e1.bounds.getCenterX() < e2.bounds.getCenterX())
 		{
 			g.drawString(cardinality1, bounds.x - 4 - cardinality1Offset, bounds.y + 30);
